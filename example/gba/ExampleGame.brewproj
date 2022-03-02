@@ -1,0 +1,35 @@
+<Project Sdk="DevkitProGBA">
+    <OutputName>ExampleGame</OutputName>
+    <SourceDirectory>src</SourceDirectory>
+    <AssetDirectory>assets</AssetDirectory>
+    <SystemLib>tonc</SystemLib>
+    <AdditionalLibs>
+        <Lib>maxmod</Lib>
+    </AdditionalLibs>
+
+    <BuildConfigurations>
+        <Configuration Name="Debug">
+            <DefineSymbols>
+                <Define>DEBUG</Define>
+            </DefineSymbols>
+        </Configuration>
+        <Configuration Name="Release">
+            <DefineSymbols>
+                <Define>RELEASE</Define>
+            </DefineSymbols>
+        </Configuration>
+    </BuildConfigurations>
+
+    <SourceRules>
+        <Compile Target="**/*.arm.c" Language="C" Arch="ARM" />
+        <Compile Target="**/*.iwram.c" Language="C" Location="IWRam" Arch="ARM" />
+        <Compile Target="**/*.c" Language="C" Arch="Thumb" />
+        <Compile Target="**/*.arm.s" Language="ASM" Arch="ARM" />
+        <Compile Target="**/*.s" Language="ASM" Arch="Thumb" />
+    </SourceRules>
+
+    <AssetRules>
+        <Sprite Target="**/*.bmp" Compress="LZ77" />
+        <Strings Target="**/*.strings" />
+    </AssetRules>
+</Project>

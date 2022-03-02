@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<LangVersion>10.0</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Brewery.Sdk.DevKitPro</RootNamespace>
+		<Authors>Brewery Developers</Authors>
+		<AssemblyName>Brewery.$(MSBuildProjectName)</AssemblyName>
+		<PackageId>Brewery.$(MSBuildProjectName)</PackageId>
+		<Company>Brewery</Company>
+		<Product>Brewery</Product>
+		<Copyright>Copyright © Brewery 2022.</Copyright>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\ToolSdk\ToolSdk.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,44 @@
+{
+    "configurations": [
+        {
+            "name": "GBA",
+            "includePath": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/obj/assets",
+                "C:\\msys64\\opt\\devkitpro\\libgba\\include",
+                "C:\\msys64\\opt\\devkitpro\\libtonc\\include",
+                "C:\\msys64\\opt\\devkitpro\\devkitARM\\arm-none-eabi\\include",
+                "C:\\msys64\\opt\\devkitpro\\devkitARM\\lib\\gcc\\arm-none-eabi\\11.1.0\\include"
+            ],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/src",
+                    "${workspaceFolder}/obj/assets",
+                    "C:\\msys64\\opt\\devkitpro\\libgba\\include",
+                    "C:\\msys64\\opt\\devkitpro\\libtonc\\include",
+                    "C:\\msys64\\opt\\devkitpro\\devkitARM\\arm-none-eabi\\include",
+                    "C:\\msys64\\opt\\devkitpro\\devkitARM\\lib\\gcc\\arm-none-eabi\\11.1.0\\include"
+                ]
+            },
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "ARM7"
+            ],
+            "windowsSdkVersion": "10.0.19041.0",
+            //"compilerPath": "C:\\msys64\\opt\\devkitpro\\devkitARM\\bin\\arm-none-eabi-gcc.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-arm",
+            "compilerArgs": [
+                "-thumb",
+                "-mthumb-interwork",
+                "-mcpu=arm7tdmi",
+                "-mtune=arm7tdmi"
+            ],
+            "configurationProvider": "ms-vscode.makefile-tools"
+        }
+    ],
+    "version": 4
+}

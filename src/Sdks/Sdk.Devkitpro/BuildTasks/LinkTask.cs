@@ -1,0 +1,67 @@
+﻿using System.Diagnostics;
+using Brewery.ToolSdk.Build;
+using Brewery.ToolSdk.Logging;
+using Brewery.ToolSdk.Project;
+
+namespace Brewery.Sdk.DevKitPro.BuildTasks
+{
+    internal class LinkTask : IBuildTask
+    {
+        public Action<string, LogLevel> Log { get; set; } = default!;
+
+        public CompileInfo CompileInfo { get; private set; } = default!;
+
+        public static LinkTask Generate(GameProject project, IEnumerable<FileInfo> objectFiles, out FileInfo elfFile)
+        {
+            if (project.BuildSdk is not DevKitProBuildSdkBase sdk)
+                throw new InvalidOperationException();
+
+            var task = new LinkTask()
+            {
+                CompileInfo = sdk.GetLinkCommand(project, objectFiles)
+            };
+
+            elfFile = new FileInfo(task.CompileInfo.OutputFile);
+            return task;
+        }
+
+        public BuildResult Build()
+        {
+            Log($"Linking {CompileInfo.OutputFile}", LogLevel.Information);
+
+            var proc = new Process();
+            proc.StartInfo = new ProcessStartInfo()
+            {
+                FileName = CompileInfo.CompileCommand[0],
+                Arguments = string.Join(' ', CompileInfo.CompileCommand.ToArray()[1..]),
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+
+            Log($"{proc.StartInfo.FileName} {proc.StartInfo.Arguments}", LogLevel.Debug);
+
+            proc.OutputDataReceived += (sender, args) =>
+            {
+                Console.WriteLine(args.Data);
+            };
+
+            proc.ErrorDataReceived += (sender, args) =>
+            {
+                Console.WriteLine(args.Data);
+            };
+
+            proc.Start();
+
+#if DEBUG
+            proc.BeginOutputReadLine();
+            proc.BeginErrorReadLine();
+#endif
+
+            proc.WaitForExit();
+
+            return proc.ExitCode == 0 ? BuildResult.Succeeded : BuildResult.Failed;
+        }
+    }
+}

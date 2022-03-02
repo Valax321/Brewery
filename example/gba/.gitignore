@@ -1,0 +1,4 @@
+obj/
+*.elf
+*.gba
+*.sav

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Build DKP Game": {
+      "commandName": "Project",
+      "commandLineArgs": "build $(SolutionDir)example\\gba\\ExampleGame.brewproj"
+    }
+  }
+}
