@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Brewery.Sdk.DevKitPro.Utility;
 using Brewery.ToolSdk.Build;
 using Brewery.ToolSdk.Logging;
 using Brewery.ToolSdk.Project;
@@ -62,78 +63,36 @@ namespace Brewery.Sdk.DevKitPro.BuildTasks
 
         private BuildResult ObjcopyCommand()
         {
-            var proc = new Process();
-            proc.StartInfo = new ProcessStartInfo()
+            var fn = CopyCommand[0];
+            var args = CopyCommand.ToArray()[1..];
+
+            var result = ProcessUtility.RunProcess(fn, args, out var errors);
+            if (result == BuildResult.Succeeded)
+                return result;
+
+            foreach (var error in errors)
             {
-                FileName = CopyCommand[0],
-                Arguments = string.Join(' ', CopyCommand.ToArray()[1..]),
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                WorkingDirectory = WorkingDirectory
-            };
+                Log(error, LogLevel.Error);
+            }
 
-            Log($"{proc.StartInfo.FileName} {proc.StartInfo.Arguments}", LogLevel.Debug);
-
-            proc.OutputDataReceived += (sender, args) =>
-            {
-                Console.WriteLine(args.Data);
-            };
-
-            proc.ErrorDataReceived += (sender, args) =>
-            {
-                Console.WriteLine(args.Data);
-            };
-
-            proc.Start();
-
-#if DEBUG
-            proc.BeginOutputReadLine();
-            proc.BeginErrorReadLine();
-#endif
-
-            proc.WaitForExit();
-
-            return proc.ExitCode == 0 ? BuildResult.Succeeded : BuildResult.Failed;
+            return result;
         }
 
         private BuildResult GBAFixCommand()
         {
-            var proc = new Process();
-            proc.StartInfo = new ProcessStartInfo()
+            var fn = Command[0];
+            var args = Command.ToArray()[1..];
+
+            var result = ProcessUtility.RunProcess(fn, args, out var errors);
+            if (result == BuildResult.Succeeded)
+                return result;
+
+            foreach (var error in errors)
             {
-                FileName = Command[0],
-                Arguments = string.Join(' ', Command.ToArray()[1..]),
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                WorkingDirectory = WorkingDirectory
-            };
+                Log(error, LogLevel.Error);
+            }
 
-            Log($"{proc.StartInfo.FileName} {proc.StartInfo.Arguments}", LogLevel.Debug);
-
-            proc.OutputDataReceived += (sender, args) =>
-            {
-                Console.WriteLine(args.Data);
-            };
-
-            proc.ErrorDataReceived += (sender, args) =>
-            {
-                Console.WriteLine(args.Data);
-            };
-
-            proc.Start();
-
-#if DEBUG
-            proc.BeginOutputReadLine();
-            proc.BeginErrorReadLine();
-#endif
-
-            proc.WaitForExit();
-
-            return proc.ExitCode == 0 ? BuildResult.Succeeded : BuildResult.Failed;
+            return result;
         }
     }
 }

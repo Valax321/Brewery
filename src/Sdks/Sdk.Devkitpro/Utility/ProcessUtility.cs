@@ -7,6 +7,7 @@ internal static class ProcessUtility
 {
     public static BuildResult RunProcess(string processPath, IEnumerable<string> args, out IEnumerable<string> errors)
     {
+        var stdOut = new List<string>();
         var err = new List<string>();
         errors = err;
         var proc = new Process();
@@ -23,15 +24,18 @@ internal static class ProcessUtility
 #if DEBUG
             proc.OutputDataReceived += (sender, args) =>
             {
-                Console.WriteLine(args.Data);
+                if (args.Data is null || args.Data.Length == 0)
+                    return;
+
+                stdOut.Add(args.Data);
             };
 #endif
 
         proc.ErrorDataReceived += (sender, args) =>
         {
-#if DEBUG
-                Console.WriteLine(args.Data);
-#endif
+            if (args.Data is null || args.Data.Length == 0)
+                return;
+
             err.Add(args.Data);
         };
 
@@ -44,6 +48,13 @@ internal static class ProcessUtility
         proc.BeginErrorReadLine();
 
         proc.WaitForExit();
+
+#if DEBUG
+        foreach (var line in stdOut)
+        {
+            Console.WriteLine(line);
+        }
+#endif
 
         return proc.ExitCode == 0 ? BuildResult.Succeeded : BuildResult.Failed;
     }

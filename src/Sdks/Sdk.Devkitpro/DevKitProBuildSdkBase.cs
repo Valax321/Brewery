@@ -64,6 +64,13 @@ public abstract class DevKitProBuildSdkBase : IBuildSdk
         dispatcher.RunParallel(project.GenerateAssetBuildTasks(out var assetBuildArtifacts));
         project.AssetBuildArtifacts = assetBuildArtifacts;
 
+        // Here we need to actually the asset build before source compilation occurs
+        // Otherwise the build artifacts don't actually exist and will be missed by the file matching
+        // in the source build rules.
+        var result = dispatcher.ExecuteTasks();
+        if (result == BuildResult.Failed)
+            return result;
+
         // Cursed concatenation of normal source files and generated .c and .s compiled asset files.
         dispatcher.RunParallel(project.GenerateSourceBuildTasks(out var sourceBuildArtifacts)
             .Concat(project.GenerateSourceBuildTasks(out var compiledAssetsBuildArtifacts, 
