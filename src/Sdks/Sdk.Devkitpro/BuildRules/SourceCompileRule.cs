@@ -19,7 +19,7 @@ internal class SourceCompileRule : SourceBuildRule
         var matchResult = Target.Execute(sourceDirectory);
         foreach (var result in matchResult.Files.Select(x => x.Path).Except(alreadyMatchedFiles))
         {
-            tasks.Add(CompileTask.Generate(project, result, this, out var objFile));
+            tasks.Add(CompileTask.Generate(project, Path.Combine(sourceDirectory.FullName, result), this, out var objFile));
             artifacts.Add(objFile);
             alreadyMatchedFiles.Add(result);
         }

@@ -11,14 +11,14 @@ namespace Brewery.Sdk.DevKitPro.BuildTasks
 
         public CompileInfo CompileInfo { get; private set; } = default!;
 
-        public static LinkTask Generate(GameProject project, IEnumerable<FileInfo> objectFiles, out FileInfo elfFile)
+        public static LinkTask Generate(GameProject project, out FileInfo elfFile)
         {
             if (project.BuildSdk is not DevKitProBuildSdkBase sdk)
                 throw new InvalidOperationException();
 
             var task = new LinkTask()
             {
-                CompileInfo = sdk.GetLinkCommand(project, objectFiles)
+                CompileInfo = sdk.GetLinkCommand(project, project.SourceBuildArtifacts)
             };
 
             elfFile = new FileInfo(task.CompileInfo.OutputFile);

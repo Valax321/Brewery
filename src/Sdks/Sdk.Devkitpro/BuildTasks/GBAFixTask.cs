@@ -51,7 +51,7 @@ namespace Brewery.Sdk.DevKitPro.BuildTasks
 
         public BuildResult Build()
         {
-            Log($"Fixing GBA file {Command[1]}", LogLevel.Information);
+            Log($"Making GBA ROM {Command[1]}", LogLevel.Information);
 
             var result = ObjcopyCommand();
             if (result == BuildResult.Failed)

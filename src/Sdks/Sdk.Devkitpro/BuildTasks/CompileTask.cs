@@ -20,7 +20,7 @@ internal class CompileTask : IBuildTask
 
         var task = new CompileTask
         {
-            SourceFile = Path.Combine(project.SourceDirectory.FullName, filePath).Replace('\\', '/'),
+            SourceFile = filePath.Replace('\\', '/'),
             CompileInfo = sdk.GetCompileCommand(project, rule, filePath)
         };
 

@@ -31,5 +31,8 @@ public class DevKitProPlugin : IPlugin
 
         services.GetSourceRuleRegistry()
             .Register<SourceCompileRule>(SourceCompileRule.RuleName);
+
+        services.GetAssetRuleRegistry()
+            .Register<SpriteCompileRule>(SpriteCompileRule.RuleName);
     }
 }

@@ -1,0 +1,71 @@
+﻿using Brewery.Sdk.DevKitPro.BuildRules;
+using Brewery.Sdk.DevKitPro.Utility;
+using Brewery.ToolSdk.Build;
+using Brewery.ToolSdk.Logging;
+using Brewery.ToolSdk.Project;
+
+namespace Brewery.Sdk.DevKitPro.BuildTasks;
+
+internal class GritTask : IBuildTask
+{
+    public Action<string, LogLevel> Log { get; set; }
+
+    public FileInfo InputFile { get; private set; }
+    public string SymbolName { get; private set; }
+    public FileInfo OutputFile { get; private set; }
+    public SpriteCompileRule.CompressionType Compression { get; private set; }
+    public string GritPath { get; private set; }
+
+    public static GritTask Generate(GameProject project, string imageFile, SpriteCompileRule.CompressionType compression, out FileInfo sourceFile)
+    {
+        if (project.BuildSdk is not DevKitProBuildSdkBase sdk)
+            throw new InvalidOperationException();
+
+        sourceFile = new FileInfo(Path.Combine(project.IntermediateDirectory.FullName, project.AssetsDirectory.Name, imageFile));
+
+        var task = new GritTask()
+        {
+            InputFile = new FileInfo(Path.Combine(project.AssetsDirectory.FullName, imageFile)),
+            OutputFile = sourceFile,
+            Compression = compression,
+            GritPath = Path.Combine(sdk.DevKitProPath.FullName, "tools", "bin", "grit").Replace('\\', '/'),
+            SymbolName = Path.ChangeExtension(imageFile, null).Replace('\\', '/').Replace("/", "__") + "_"
+        };
+
+        return task;
+    }
+
+    public BuildResult Build()
+    {
+        Log($"Processing {InputFile.FullName}", LogLevel.Information);
+
+        var flagsFile = Path.ChangeExtension(InputFile.FullName, ".grit.txt")
+            .Replace('\\', '/');
+
+        if (!OutputFile.Directory.Exists)
+            OutputFile.Directory.Create();
+
+        var args = new List<string>()
+        {
+            InputFile.FullName.Replace('\\', '/'),
+            $"-o{OutputFile.FullName.Replace('\\', '/')}",
+            $"-s{SymbolName}"
+        };
+
+        if (File.Exists(flagsFile))
+        {
+            args.Add($"-ff{flagsFile}");
+        }
+
+        var result = ProcessUtility.RunProcess(GritPath, args, out var errors);
+        if (result == BuildResult.Succeeded) 
+            return result;
+
+        foreach (var error in errors)
+        {
+            Log(error, LogLevel.Error);
+        }
+
+        return result;
+    }
+}

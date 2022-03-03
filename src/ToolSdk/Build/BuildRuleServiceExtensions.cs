@@ -9,4 +9,9 @@ public static class BuildRuleServiceExtensions
     {
         return services.GetRequiredService<IRegistry<SourceBuildRule>>();
     }
+
+    public static IRegistry<AssetBuildRule> GetAssetRuleRegistry(this IServiceProvider services)
+    {
+        return services.GetRequiredService<IRegistry<AssetBuildRule>>();
+    }
 }

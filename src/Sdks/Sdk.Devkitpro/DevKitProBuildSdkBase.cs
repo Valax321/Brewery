@@ -4,6 +4,7 @@ using Brewery.ToolSdk.Build;
 using Brewery.ToolSdk.Logging;
 using Brewery.ToolSdk.Project;
 using Brewery.ToolSdk.Sdk;
+using Brewery.ToolSdk.Utility;
 using Brewery.ToolSdk.Xml;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -60,8 +61,16 @@ public abstract class DevKitProBuildSdkBase : IBuildSdk
     {
         var dispatcher = new BuildCommandDispatcher(m_services);
 
-        dispatcher.RunParallel(project.GenerateSourceBuildTasks(out var sourceBuildArtifacts));
-        dispatcher.RunTask(LinkTask.Generate(project, sourceBuildArtifacts, out var elfFile));
+        dispatcher.RunParallel(project.GenerateAssetBuildTasks(out var assetBuildArtifacts));
+        project.AssetBuildArtifacts = assetBuildArtifacts;
+
+        // Cursed concatenation of normal source files and generated .c and .s compiled asset files.
+        dispatcher.RunParallel(project.GenerateSourceBuildTasks(out var sourceBuildArtifacts)
+            .Concat(project.GenerateSourceBuildTasks(out var compiledAssetsBuildArtifacts, 
+                project.IntermediateDirectory.GetSubDirectory("assets"))));
+        project.SourceBuildArtifacts = sourceBuildArtifacts.Concat(compiledAssetsBuildArtifacts);
+
+        dispatcher.RunTask(LinkTask.Generate(project, out var elfFile));
         var postBuildTask = GetPostBuildBinaryTask(project, elfFile);
         if (postBuildTask is not null)
             dispatcher.RunTask(postBuildTask);

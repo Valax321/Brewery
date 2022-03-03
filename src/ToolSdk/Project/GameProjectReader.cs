@@ -49,6 +49,20 @@ internal static class GameProjectReader
             }
         }
 
+        var assetRules = rootElement.Element(nameof(GameProject.AssetRules));
+        if (assetRules is not null)
+        {
+            var registry = services.GetAssetRuleRegistry();
+
+            foreach (var ruleElement in assetRules.Elements())
+            {
+                var rule = registry.GetNamedClass(ruleElement.Name.LocalName);
+                rule?.Deserialize(ruleElement);
+                if (rule is not null)
+                    project.AssetRules.Add(rule);
+            }
+        }
+
         var sdkRegistry = services.GetBuildSdkRegistry();
 
         rootElement.ReadAttribute<string>("Sdk", sdkName =>

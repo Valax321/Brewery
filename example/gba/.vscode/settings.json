@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "*.h": "c",
+        "*.lua": "lua",
+        "*.tsx": "xml",
+        "*.tiled-project": "json",
+        "*.tiled-session": "json",
+        "climits": "c",
+        "cstdarg": "c",
+        "cstdio": "c",
+        "cstdint": "c"
+    }
+}

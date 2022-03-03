@@ -1,6 +1,6 @@
 ﻿namespace Brewery.ToolSdk.Utility;
 
-internal static class DirectoryInfoExtensions
+public static class DirectoryInfoExtensions
 {
     public static DirectoryInfo GetSubDirectory(this DirectoryInfo directory, string subDirectory)
     {

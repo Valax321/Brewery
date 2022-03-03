@@ -46,9 +46,18 @@ public class GameProject
     public IBuildSdkProjectSettings? BuildSdkProjectSettings { get; internal set; }
 
     /// <summary>
+    /// Rules for building game assets.
+    /// </summary>
+    public List<AssetBuildRule> AssetRules { get; } = new();
+
+    public IEnumerable<FileInfo> AssetBuildArtifacts { get; set; }
+
+    /// <summary>
     /// Rules for building source code.
     /// </summary>
     public List<SourceBuildRule> SourceRules { get; } = new();
+
+    public IEnumerable<FileInfo> SourceBuildArtifacts { get; set; }
 
     /// <summary>
     /// The name of the output file.
