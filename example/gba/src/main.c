@@ -7,6 +7,8 @@
 #include "graphics/onion.h"
 
 OBJ_ATTR obj_buffer[128];
+int onionX = 30;
+int onionY = 30;
 
 int main(void)
 {
@@ -29,7 +31,7 @@ int main(void)
 
     OBJ_ATTR* onion = &obj_buffer[0];
     obj_set_attr(onion, ATTR0_SQUARE, ATTR1_SIZE_16x16, ATTR2_PALBANK(0));
-    obj_set_pos(onion, 30, 30);
+    obj_set_pos(onion, onionX, onionY);
 
     #if DEBUG
     mgba_printf(MGBA_LOG_INFO, "Hello, World!");
@@ -38,6 +40,11 @@ int main(void)
     while (1)
     {
         key_poll();
+
+        onionX += key_tri_horz();
+        onionY += key_tri_vert();
+        obj_set_pos(onion, onionX, onionY);
+
         VBlankIntrWait();
 
         oam_copy(oam_mem, obj_buffer, 1);
