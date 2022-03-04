@@ -1,98 +1,96 @@
-﻿using System.Diagnostics;
-using Brewery.Sdk.DevKitPro.Utility;
+﻿using Brewery.Sdk.DevKitPro.Utility;
 using Brewery.ToolSdk.Build;
 using Brewery.ToolSdk.Logging;
 using Brewery.ToolSdk.Project;
 
-namespace Brewery.Sdk.DevKitPro.BuildTasks
+namespace Brewery.Sdk.DevKitPro.BuildTasks;
+
+internal class GBAFixTask : IBuildTask
 {
-    internal class GBAFixTask : IBuildTask
+    public Action<string, LogLevel> Log { get; set; }
+
+    public IReadOnlyList<string> CopyCommand { get; set; }
+    public IReadOnlyList<string> Command { get; private set; }
+    public string WorkingDirectory { get; private set; }
+    public FileInfo ElfFile { get; private set; }
+    public FileInfo GBAFile { get; private set; }
+
+    public static GBAFixTask Generate(GameProject project, FileInfo elfFile, out FileInfo gbaFile)
     {
-        public Action<string, LogLevel> Log { get; set; }
+        if (project.BuildSdk is not DevKitProBuildSdkBase sdk)
+            throw new InvalidOperationException();
 
-        public IReadOnlyList<string> CopyCommand { get; set; }
-        public IReadOnlyList<string> Command { get; private set; }
-        public string WorkingDirectory { get; private set; }
-        public FileInfo ElfFile { get; private set; }
-        public FileInfo GBAFile { get; private set; }
+        var outputFile = Path.ChangeExtension(elfFile.FullName, ".gba").Replace('\\', '/');
 
-        public static GBAFixTask Generate(GameProject project, FileInfo elfFile, out FileInfo gbaFile)
+        var copyCommands = new List<string>()
         {
-            if (project.BuildSdk is not DevKitProBuildSdkBase sdk)
-                throw new InvalidOperationException();
+            Path.Combine(sdk.DevKitProPath.FullName, sdk.CompilerDirectory, "bin", sdk.CompilerPrefix + "objcopy"),
+            "-O binary",
+            elfFile.FullName.Replace('\\', '/'),
+            outputFile
+        };
 
-            var outputFile = Path.ChangeExtension(elfFile.FullName, ".gba").Replace('\\', '/');
-
-            var copyCommands = new List<string>()
-            {
-                Path.Combine(sdk.DevKitProPath.FullName, sdk.CompilerDirectory, "bin", sdk.CompilerPrefix + "objcopy"),
-                "-O binary",
-                elfFile.FullName.Replace('\\', '/'),
-                outputFile
-            };
-
-            var commands = new List<string>()
-            {
-                Path.Combine(sdk.DevKitProPath.FullName, "tools", "bin", "gbafix").Replace('\\', '/'),
-                outputFile
-            };
-
-            var task = new GBAFixTask()
-            {
-                WorkingDirectory = project.ProjectDirectory.FullName,
-                Command = commands,
-                CopyCommand = copyCommands,
-                GBAFile = new FileInfo(outputFile),
-                ElfFile = elfFile
-            };
-
-            gbaFile = task.GBAFile;
-            return task;
-        }
-
-        public BuildResult Build()
+        var commands = new List<string>()
         {
-            Log($"Making GBA ROM {Command[1]}", LogLevel.Information);
+            Path.Combine(sdk.DevKitProPath.FullName, "tools", "bin", "gbafix").Replace('\\', '/'),
+            outputFile
+        };
 
-            var result = ObjcopyCommand();
-            if (result == BuildResult.Failed)
-                return result;
-
-            return GBAFixCommand();
-        }
-
-        private BuildResult ObjcopyCommand()
+        var task = new GBAFixTask()
         {
-            var fn = CopyCommand[0];
-            var args = CopyCommand.ToArray()[1..];
+            WorkingDirectory = project.ProjectDirectory.FullName,
+            Command = commands,
+            CopyCommand = copyCommands,
+            GBAFile = new FileInfo(outputFile),
+            ElfFile = elfFile
+        };
 
-            var result = ProcessUtility.RunProcess(fn, args, out var errors);
-            if (result == BuildResult.Succeeded)
-                return result;
+        gbaFile = task.GBAFile;
+        return task;
+    }
 
-            foreach (var error in errors)
-            {
-                Log(error, LogLevel.Error);
-            }
+    public BuildResult Build()
+    {
+        Log($"Making GBA ROM {Command[1]}", LogLevel.Information);
 
+        var result = ObjcopyCommand();
+        if (result == BuildResult.Failed)
             return result;
-        }
 
-        private BuildResult GBAFixCommand()
-        {
-            var fn = Command[0];
-            var args = Command.ToArray()[1..];
+        return GBAFixCommand();
+    }
 
-            var result = ProcessUtility.RunProcess(fn, args, out var errors);
-            if (result == BuildResult.Succeeded)
-                return result;
+    private BuildResult ObjcopyCommand()
+    {
+        var fn = CopyCommand[0];
+        var args = CopyCommand.ToArray()[1..];
 
-            foreach (var error in errors)
-            {
-                Log(error, LogLevel.Error);
-            }
-
+        var result = ProcessUtility.RunProcess(fn, args, out var errors);
+        if (result == BuildResult.Succeeded)
             return result;
+
+        foreach (var error in errors)
+        {
+            Log(error, LogLevel.Error);
         }
+
+        return result;
+    }
+
+    private BuildResult GBAFixCommand()
+    {
+        var fn = Command[0];
+        var args = Command.ToArray()[1..];
+
+        var result = ProcessUtility.RunProcess(fn, args, out var errors);
+        if (result == BuildResult.Succeeded)
+            return result;
+
+        foreach (var error in errors)
+        {
+            Log(error, LogLevel.Error);
+        }
+
+        return result;
     }
 }

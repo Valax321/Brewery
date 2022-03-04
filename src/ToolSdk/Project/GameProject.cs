@@ -15,6 +15,8 @@ public class GameProject
     /// </summary>
     public static string Extension => ".brewproj";
 
+    public string Configuration { get; internal set; }
+
     /// <summary>
     /// Directory that the project is located at.
     /// </summary>
@@ -59,6 +61,8 @@ public class GameProject
 
     public IEnumerable<FileInfo> SourceBuildArtifacts { get; set; }
 
+    public List<string> DefineSymbols { get; set; } = new();
+
     /// <summary>
     /// The name of the output file.
     /// </summary>
@@ -71,9 +75,9 @@ public class GameProject
     /// <param name="services">Service provider for accessing tool services.</param>
     /// <returns>A <see cref="GameProject"/> instance representing the .brewproj content.</returns>
     /// <exception cref="GameProjectReadException"></exception>
-    public static GameProject Read(FileInfo projectFile, IServiceProvider services)
+    public static GameProject Read(FileInfo projectFile, IServiceProvider services, string configuration)
     {
-        return GameProjectReader.ReadProject(projectFile, services);
+        return GameProjectReader.ReadProject(projectFile, services, configuration);
     }
 
     internal GameProject(DirectoryInfo projectDirectory)

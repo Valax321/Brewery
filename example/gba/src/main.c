@@ -45,8 +45,8 @@ int main(void)
         onionY += key_tri_vert();
         obj_set_pos(onion, onionX, onionY);
 
-        VBlankIntrWait();
-
         oam_copy(oam_mem, obj_buffer, 1);
+
+        VBlankIntrWait();
     }
 }

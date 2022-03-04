@@ -53,7 +53,8 @@ internal class BuildCommand : IToolCommand
 
         try
         {
-            var project = GameProject.Read(projectFile, m_services);
+            var project = GameProject.Read(projectFile, m_services, string.IsNullOrEmpty(m_options.BuildConfiguration) 
+                ? "Release" : m_options.BuildConfiguration);
             PerformBuild(project);
         }
         catch (GameProjectReadException ex)
@@ -70,6 +71,7 @@ internal class BuildCommand : IToolCommand
     private void PerformBuild(GameProject project)
     {
         m_logger.Info($"Building project {project.ProjectDirectory}");
+        m_logger.Info($"Build configuration: {project.Configuration}");
         m_logger.Debug(project.ToString());
 
         var result = project.Build();

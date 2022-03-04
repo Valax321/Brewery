@@ -3,6 +3,10 @@
     "Build DKP Game": {
       "commandName": "Project",
       "commandLineArgs": "build $(SolutionDir)example\\gba\\ExampleGame.brewproj"
+    },
+    "Build DKP Game Debug": {
+      "commandName": "Project",
+      "commandLineArgs": "build $(SolutionDir)example\\gba\\ExampleGame.brewproj -c Debug"
     }
   }
 }

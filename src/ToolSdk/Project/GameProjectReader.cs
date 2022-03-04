@@ -1,20 +1,23 @@
 ﻿using System.Xml.Linq;
 using Brewery.ToolSdk.Build;
+using Brewery.ToolSdk.Plugin;
 using Brewery.ToolSdk.Sdk;
 using Brewery.ToolSdk.Utility;
 using Brewery.ToolSdk.Xml;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Brewery.ToolSdk.Project;
 
 internal static class GameProjectReader
 {
-    public static GameProject ReadProject(FileInfo file, IServiceProvider services)
+    public static GameProject ReadProject(FileInfo file, IServiceProvider services, string configuration)
     {
         try
         {
             var doc = XDocument.Load(file.OpenRead());
             var proj = new GameProject(file.Directory
                                        ?? throw new GameProjectReadException("Could not determine project directory"));
+            proj.Configuration = configuration;
             Read(proj, doc.Root ?? throw new GameProjectReadException("Project file had no content"), services);
             return proj;
         }
@@ -24,7 +27,7 @@ internal static class GameProjectReader
         }
     }
 
-    private static void Read(GameProject project, XElement rootElement, IServiceProvider services)
+    private static void Read(GameProject project, XElement rootElement, IServiceProvider services, bool isConfiguration = false)
     {
         rootElement.ReadProperty<string>(nameof(GameProject.SourceDirectory),
                 value => project.SourceDirectory = project.ProjectDirectory.GetSubDirectory(value))
@@ -63,17 +66,49 @@ internal static class GameProjectReader
             }
         }
 
-        var sdkRegistry = services.GetBuildSdkRegistry();
-
-        rootElement.ReadAttribute<string>("Sdk", sdkName =>
+        if (!isConfiguration)
         {
-            project.BuildSdk = sdkRegistry.GetNamedClass(sdkName);
-        }, true);
+            var sdkRegistry = services.GetBuildSdkRegistry();
 
-        if (project.BuildSdk is not null)
+            rootElement.ReadAttribute<string>("Sdk", sdkName =>
+            {
+                project.BuildSdk = sdkRegistry.GetNamedClass(sdkName);
+            }, true);
+
+            if (project.BuildSdk is not null)
+            {
+                project.BuildSdk.Initialize(services);
+                project.BuildSdkProjectSettings = project.BuildSdk.ReadSdkSettings(rootElement);
+            }
+        }
+
+        rootElement.ReadListProperty<string>("Plugins", "Plugin", plugins =>
         {
-            project.BuildSdk.Initialize(services);
-            project.BuildSdkProjectSettings = project.BuildSdk.ReadSdkSettings(rootElement);
+            var pluginLoader = services.GetRequiredService<IPluginLoader>();
+            foreach (var plugin in plugins)
+                pluginLoader.LoadPlugin(Path.Combine(project.ProjectDirectory.FullName, plugin));
+        });
+
+        rootElement.ReadListProperty<string>(nameof(GameProject.DefineSymbols), "Define",
+            values => project.DefineSymbols.AddRange(values));
+
+        if (!isConfiguration)
+        {
+            var buildConfigurations = rootElement.Element("BuildConfigurations");
+            if (buildConfigurations is not null)
+            {
+                foreach (var configuration in buildConfigurations.Elements("Configuration"))
+                {
+                    var name = string.Empty;
+                    configuration.ReadAttribute<string>("Name", 
+                        value => name = value, true);
+
+                    if (name.Equals(project.Configuration))
+                    {
+                        Read(project, configuration, services, true);
+                    }
+                }
+            }
         }
     }
 }

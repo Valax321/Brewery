@@ -7,8 +7,17 @@
         <Lib>maxmod</Lib>
     </AdditionalLibs>
 
+    <Plugins>
+        <!-- 
+            In reality you'd want a cleaner path to put these.
+            Just make a plugins folder and copy the dlls in.
+        -->
+        <Plugin>gbaplugin/bin/Release/netstandard2.1/Brewery.GBAPluginExample.dll</Plugin>
+    </Plugins>
+
     <BuildConfigurations>
         <Configuration Name="Debug">
+            <OutputName>ExampleGame_Debug</OutputName>
             <DefineSymbols>
                 <Define>DEBUG</Define>
             </DefineSymbols>
@@ -29,7 +38,7 @@
     </SourceRules>
 
     <AssetRules>
-        <Sprite Target="**/*.bmp" Compress="LZ77" />
+        <Sprite Target="**/*.bmp" />
         <Strings Target="**/*.strings" />
     </AssetRules>
 </Project>

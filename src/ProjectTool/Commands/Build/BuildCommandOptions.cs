@@ -9,4 +9,7 @@ internal class BuildCommandOptions : IToolCommandOptions
 {
     [Value(0, Required = true, HelpText = "The path to the .brewproj file.")]
     public string ProjectPath { get; set; } = string.Empty;
+
+    [Option('c', "configuration", HelpText = "The configuration name to build with.")]
+    public string BuildConfiguration { get; set; } = string.Empty;
 }

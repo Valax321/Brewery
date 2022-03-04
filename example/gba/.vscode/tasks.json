@@ -9,7 +9,9 @@
             "command": "${workspaceFolder}/../../src/ProjectTool/bin/Release/net6.0/Brewery.ProjectTool",
             "args": [
                 "build",
-                "${workspaceFolder}/ExampleGame.brewproj"
+                "${workspaceFolder}/ExampleGame.brewproj",
+                "-c",
+                "Debug"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"

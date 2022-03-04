@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Brewery.Sdk.DevKitPro.BuildRules;
+﻿using Brewery.Sdk.DevKitPro.BuildRules;
 using Brewery.Sdk.DevKitPro.Utility;
 using Brewery.ToolSdk.Build;
 using Brewery.ToolSdk.Logging;
@@ -36,6 +35,8 @@ internal class CompileTask : IBuildTask
 
         if (!Directory.Exists(Path.GetDirectoryName(CompileInfo.OutputFile)))
             Directory.CreateDirectory(Path.GetDirectoryName(CompileInfo.OutputFile));
+
+        Log(string.Join(' ', CompileInfo.CompileCommand), LogLevel.Debug);
 
         var fn = CompileInfo.CompileCommand[0];
         var args = CompileInfo.CompileCommand.ToArray()[1..];

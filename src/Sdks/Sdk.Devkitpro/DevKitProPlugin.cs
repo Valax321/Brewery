@@ -17,7 +17,7 @@ namespace Brewery.Sdk.DevKitPro;
 /// <summary>
 /// Plugin that provides support for Devkitpro builds.
 /// </summary>
-public class DevKitProPlugin : IPlugin
+internal class DevKitProPlugin : IPlugin
 {
     public string Name => "Devkitpro";
 

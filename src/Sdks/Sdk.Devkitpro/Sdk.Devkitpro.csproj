@@ -12,10 +12,23 @@
 		<Company>Brewery</Company>
 		<Product>Brewery</Product>
 		<Copyright>Copyright © Brewery 2022.</Copyright>
+		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<PackageProjectUrl>https://github.com/Valax321/Brewery</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/Valax321/Brewery</RepositoryUrl>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\ToolSdk\ToolSdk.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="README.md">
+	    <PackagePath>\</PackagePath>
+	    <Pack>True</Pack>
+	  </None>
 	</ItemGroup>
 
 </Project>
