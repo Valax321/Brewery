@@ -28,14 +28,8 @@
             ],
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "windows-gcc-arm",
-            "compilerArgs": [
-                "-thumb",
-                "-mthumb-interwork",
-                "-mcpu=arm7tdmi",
-                "-mtune=arm7tdmi"
-            ],
-            "configurationProvider": "ms-vscode.makefile-tools"
+            "compilerPath": "C:/msys64/opt/devkitpro/devkitARM/bin/arm-none-eabi-gcc.exe",
+            "intelliSenseMode": "gcc-x64"
         }
     ],
     "version": 4
