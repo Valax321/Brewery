@@ -8,7 +8,9 @@ internal static class PluginServiceExtensions
 {
     public static IServiceCollection AddBuiltinPlugins(this IServiceCollection services)
     {
-        return services.AddPlugin<DevKitProPlugin>();
+        return services
+            .AddSingleton<IPluginLoader, PluginLoader>()
+            .AddPlugin<DevKitProPlugin>();
     }
 
     private static IServiceCollection AddPlugin<TPlugin>(this IServiceCollection services) where TPlugin : class, IPlugin

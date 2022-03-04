@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GBA", "GBA", "{97946CC0-EFE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sdk.Devkitpro", "src\Sdks\Sdk.Devkitpro\Sdk.Devkitpro.csproj", "{13C1ACA9-381F-435C-BF7F-A4BAA7AC6828}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gbaplugin", "example\gba\gbaplugin\gbaplugin.csproj", "{9859567B-1783-4A4D-AE24-9A1AEE00B424}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{13C1ACA9-381F-435C-BF7F-A4BAA7AC6828}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13C1ACA9-381F-435C-BF7F-A4BAA7AC6828}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13C1ACA9-381F-435C-BF7F-A4BAA7AC6828}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9859567B-1783-4A4D-AE24-9A1AEE00B424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9859567B-1783-4A4D-AE24-9A1AEE00B424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9859567B-1783-4A4D-AE24-9A1AEE00B424}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9859567B-1783-4A4D-AE24-9A1AEE00B424}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{26D030D6-2EE2-492A-8FB6-CDD6D02D9BAF} = {DECF24DC-C547-4997-AD2E-0573062343B4}
 		{60B74A7E-BF2C-42F3-8307-23C816B8A31B} = {DECF24DC-C547-4997-AD2E-0573062343B4}
 		{13C1ACA9-381F-435C-BF7F-A4BAA7AC6828} = {97946CC0-EFE0-4AFB-8416-85C42FB2E746}
+		{9859567B-1783-4A4D-AE24-9A1AEE00B424} = {97946CC0-EFE0-4AFB-8416-85C42FB2E746}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E2F6BE9C-E437-4097-92BB-9BC59B5001EB}
