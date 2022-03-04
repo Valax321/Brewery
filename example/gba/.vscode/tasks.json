@@ -4,7 +4,26 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Brewery",
+            "label": "Build Release",
+            "type": "shell",
+            "command": "${workspaceFolder}/../../src/ProjectTool/bin/Release/net6.0/Brewery.ProjectTool",
+            "args": [
+                "build",
+                "${workspaceFolder}/ExampleGame.brewproj",
+                "-c",
+                "Release"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Build Debug",
             "type": "shell",
             "command": "${workspaceFolder}/../../src/ProjectTool/bin/Release/net6.0/Brewery.ProjectTool",
             "args": [
@@ -20,6 +39,42 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            }
+        },
+        {
+            "label": "gdb-debug",
+            "type": "shell",
+            "dependsOn": ["Build Release"],
+            "isBackground": false,
+            "windows": {
+                "command": "C:/mGBA/mGBA.exe -g ${workspaceFolder}\\ExampleGame.gba;sleep 5;echo debuggerReady"
+            },
+            "osx":{
+                "command": "/Users/jamies/mGBA/mGBA.app/Contents/MacOS/mGBA",
+                "args": ["-g", "${workspaceFolder}/ExampleGame.gba"]
+            },
+            "presentation": {
+                "clear": true,
+                "reveal": "always",
+                "panel": "new"
+            },
+            "command": "debuggerReady",
+            // "problemMatcher": {
+            //     "background": {
+            //         "activeOnStart": true,
+            //         "beginsPattern": "^.*debuggerReady.*$",
+            //         "endsPattern": "^.*debuggerReady.*$"
+            //     },
+            // }
+        },
+        { 
+            "label": "stop emulation",
+            "type":"shell",
+            "windows": {
+                "command":"taskkill /im mGBA.exe /F"
+            },
+            "osx": {
+                "command": "killall mGBA"
             }
         }
     ]
