@@ -47,7 +47,7 @@
             "dependsOn": ["Build Release"],
             "isBackground": false,
             "windows": {
-                "command": "C:/mGBA/mGBA.exe -g ${workspaceFolder}\\ExampleGame.gba;sleep 5;echo debuggerReady"
+                "command": "C:/mGBA/mGBA.exe -g ${workspaceFolder}\\ExampleGame.gba"
             },
             "osx":{
                 "command": "/Users/jamies/mGBA/mGBA.app/Contents/MacOS/mGBA",
@@ -57,15 +57,7 @@
                 "clear": true,
                 "reveal": "always",
                 "panel": "new"
-            },
-            "command": "debuggerReady",
-            // "problemMatcher": {
-            //     "background": {
-            //         "activeOnStart": true,
-            //         "beginsPattern": "^.*debuggerReady.*$",
-            //         "endsPattern": "^.*debuggerReady.*$"
-            //     },
-            // }
+            }
         },
         { 
             "label": "stop emulation",
