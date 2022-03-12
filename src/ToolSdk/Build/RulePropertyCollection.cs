@@ -2,12 +2,15 @@
 
 namespace Brewery.ToolSdk.Build;
 
+/// <summary>
+/// A collection of properties from a source or asset rule.
+/// </summary>
 public class RulePropertyCollection
 {
     private class Property
     {
         public string Value { get; }
-        private Dictionary<Type, object> m_typedValues = new();
+        private readonly Dictionary<Type, object> m_typedValues = new();
 
         public Property(string value)
         {
@@ -41,7 +44,7 @@ public class RulePropertyCollection
         }
     }
 
-    private Dictionary<string, Property> m_properties = new();
+    private readonly Dictionary<string, Property> m_properties = new();
 
     /// <summary>
     /// Gets the given property as the specified type.

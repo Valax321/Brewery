@@ -8,7 +8,7 @@ namespace Brewery.Sdk.DevKitPro.BuildTasks;
 
 internal class CompileTask : IBuildTask
 {
-    public Action<string, LogLevel> Log { get; set; }
+    public Action<string, LogLevel> Log { get; set; } = default!;
 
     public string SourceFile { get; private set; } = default!;
     public CompileInfo CompileInfo { get; private set; } = default!;
@@ -28,6 +28,9 @@ internal class CompileTask : IBuildTask
 
         return task;
     }
+
+    private CompileTask()
+    { }
 
     public BuildResult Build()
     {

@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿#if ENABLE_EXPERIMENTAL_FEATURES
+using CommandLine;
 
 namespace Brewery.ProjectTool.Commands.CreateProject;
 
@@ -11,3 +12,4 @@ internal class CreateProjectCommandOptions : IToolCommandOptions
     [Option('p', "path", Default = "", HelpText = "Directory where the project should be created.")]
     public string ProjectDirectory { get; set; } = string.Empty;
 }
+#endif

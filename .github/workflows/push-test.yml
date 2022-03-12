@@ -19,5 +19,7 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
+    - name: Build Release
       run: dotnet build -c Release --no-restore
+    - name: Build Shipping
+      run: dotnet build -c Shipping --no-restore

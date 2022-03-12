@@ -7,13 +7,13 @@ namespace Brewery.Sdk.DevKitPro.BuildTasks;
 
 internal class GBAFixTask : IBuildTask
 {
-    public Action<string, LogLevel> Log { get; set; }
+    public Action<string, LogLevel> Log { get; set; } = default!;
 
-    public IReadOnlyList<string> CopyCommand { get; set; }
-    public IReadOnlyList<string> Command { get; private set; }
-    public string WorkingDirectory { get; private set; }
-    public FileInfo ElfFile { get; private set; }
-    public FileInfo GBAFile { get; private set; }
+    public IReadOnlyList<string> CopyCommand { get; set; } = default!;
+    public IReadOnlyList<string> Command { get; private set; } = default!;
+    public string WorkingDirectory { get; private set; } = default!;
+    public FileInfo ElfFile { get; private set; } = default!;
+    public FileInfo GBAFile { get; private set; } = default!;
 
     public static GBAFixTask Generate(GameProject project, FileInfo elfFile, out FileInfo gbaFile)
     {
@@ -48,6 +48,9 @@ internal class GBAFixTask : IBuildTask
         gbaFile = task.GBAFile;
         return task;
     }
+
+    private GBAFixTask()
+    { }
 
     public BuildResult Build()
     {

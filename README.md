@@ -23,5 +23,4 @@ The project layout is:
 
 ## License
 
-Source code in the `src/` folder is available under the GPL-3.0 license.
-Examples in the `examples/` folder are available under the MIT license.
+All source code in this project is available under the MIT license.

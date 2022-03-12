@@ -6,17 +6,44 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<RootNamespace>Brewery.ProjectTool</RootNamespace>
-		<Authors>Brewery Developers</Authors>
+		<Authors>Valax321</Authors>
 		<AssemblyName>Brewery.$(MSBuildProjectName)</AssemblyName>
 		<PackageId>Brewery.$(MSBuildProjectName)</PackageId>
 		<Company>Brewery</Company>
 		<Product>Brewery</Product>
-		<Description>Brewery commandline tool.</Description>
+		<Description>The project runner tool for the Brewery build system.</Description>
 		<Copyright>Copyright © Brewery 2022.</Copyright>
 		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>brewery</ToolCommandName>
+		<PackageProjectUrl>https://github.com/Valax321/Brewery/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Valax321/Brewery/</RepositoryUrl>
+		<PackageTags>project,homebrew,build,c,gba,devkitpro,tool</PackageTags>
+		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>brewery_logo.png</PackageIcon>
+		<Configurations>Debug;Release;Shipping</Configurations>
 	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DefineConstants>$(DefineConstants);TRACE;ENABLE_EXPERIMENTAL_FEATURES</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <DefineConstants>$(DefineConstants);TRACE;ENABLE_EXPERIMENTAL_FEATURES</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|AnyCPU'">
+	  <Optimize>True</Optimize>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\assets\brewery_logo.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Sdks\Sdk.Devkitpro\Sdk.Devkitpro.csproj" />
@@ -29,6 +56,14 @@
 		<PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 		<PackageReference Include="System.Text.Json" Version="6.0.1" />
+		<PackageReference Include="GitVersion.MsBuild" Version="5.9.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>

@@ -7,6 +7,8 @@
 		<Nullable>enable</Nullable>
 		<AssemblyName>Brewery.GBAPluginExample</AssemblyName>
 		<RootNamespace>Brewery.GBAPluginExample</RootNamespace>
+		<IsPublishable>False</IsPublishable>
+		<Configurations>Debug;Release;Shipping</Configurations>
 	</PropertyGroup>
 
 	<ItemGroup>

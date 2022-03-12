@@ -31,7 +31,7 @@ public abstract class DevKitProBuildSdkBase : IBuildSdk
     /// <summary>
     /// The path DevKitPro is installed at.
     /// </summary>
-    public DirectoryInfo? DevKitProPath { get; private set; }
+    public DirectoryInfo DevKitProPath { get; private set; } = default!;
 
     private ILogger<DevKitProBuildSdkBase> m_logger = null!;
     private IServiceProvider m_services = null!;
@@ -71,6 +71,11 @@ public abstract class DevKitProBuildSdkBase : IBuildSdk
         return settings;
     }
 
+    /// <summary>
+    /// Read dkp-specific project settings.
+    /// </summary>
+    /// <param name="rootElement">The <see cref="XElement"/> at the root of the document.</param>
+    /// <returns></returns>
     protected virtual DevKitProBuildSdkProjectSettings InternalReadSdkSettings(XElement rootElement) => new();
 
     /// <inheritdoc />

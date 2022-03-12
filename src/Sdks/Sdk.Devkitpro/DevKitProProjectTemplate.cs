@@ -1,4 +1,5 @@
-﻿using Brewery.ToolSdk.Template;
+﻿#if ENABLE_EXPERIMENTAL_FEATURES
+using Brewery.ToolSdk.Template;
 
 namespace Brewery.Sdk.DevKitPro;
 
@@ -8,3 +9,4 @@ internal class DevKitProProjectTemplate : ProjectTemplate
 
     public override string Description => "GBA game template.";
 }
+#endif

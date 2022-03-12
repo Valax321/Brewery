@@ -19,24 +19,33 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Shipping|Any CPU = Shipping|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{26D030D6-2EE2-492A-8FB6-CDD6D02D9BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{26D030D6-2EE2-492A-8FB6-CDD6D02D9BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26D030D6-2EE2-492A-8FB6-CDD6D02D9BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26D030D6-2EE2-492A-8FB6-CDD6D02D9BAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26D030D6-2EE2-492A-8FB6-CDD6D02D9BAF}.Shipping|Any CPU.ActiveCfg = Shipping|Any CPU
+		{26D030D6-2EE2-492A-8FB6-CDD6D02D9BAF}.Shipping|Any CPU.Build.0 = Shipping|Any CPU
 		{60B74A7E-BF2C-42F3-8307-23C816B8A31B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{60B74A7E-BF2C-42F3-8307-23C816B8A31B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60B74A7E-BF2C-42F3-8307-23C816B8A31B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60B74A7E-BF2C-42F3-8307-23C816B8A31B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60B74A7E-BF2C-42F3-8307-23C816B8A31B}.Shipping|Any CPU.ActiveCfg = Shipping|Any CPU
+		{60B74A7E-BF2C-42F3-8307-23C816B8A31B}.Shipping|Any CPU.Build.0 = Shipping|Any CPU
 		{13C1ACA9-381F-435C-BF7F-A4BAA7AC6828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13C1ACA9-381F-435C-BF7F-A4BAA7AC6828}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13C1ACA9-381F-435C-BF7F-A4BAA7AC6828}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13C1ACA9-381F-435C-BF7F-A4BAA7AC6828}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C1ACA9-381F-435C-BF7F-A4BAA7AC6828}.Shipping|Any CPU.ActiveCfg = Shipping|Any CPU
+		{13C1ACA9-381F-435C-BF7F-A4BAA7AC6828}.Shipping|Any CPU.Build.0 = Shipping|Any CPU
 		{9859567B-1783-4A4D-AE24-9A1AEE00B424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9859567B-1783-4A4D-AE24-9A1AEE00B424}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9859567B-1783-4A4D-AE24-9A1AEE00B424}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9859567B-1783-4A4D-AE24-9A1AEE00B424}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9859567B-1783-4A4D-AE24-9A1AEE00B424}.Shipping|Any CPU.ActiveCfg = Shipping|Any CPU
+		{9859567B-1783-4A4D-AE24-9A1AEE00B424}.Shipping|Any CPU.Build.0 = Shipping|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

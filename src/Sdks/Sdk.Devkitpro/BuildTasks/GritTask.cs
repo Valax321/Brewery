@@ -8,13 +8,13 @@ namespace Brewery.Sdk.DevKitPro.BuildTasks;
 
 internal class GritTask : IBuildTask
 {
-    public Action<string, LogLevel> Log { get; set; }
+    public Action<string, LogLevel> Log { get; set; } = default!;
 
-    public FileInfo InputFile { get; private set; }
-    public string SymbolName { get; private set; }
-    public FileInfo OutputFile { get; private set; }
+    public FileInfo InputFile { get; private set; } = default!;
+    public string SymbolName { get; private set; } = string.Empty;
+    public FileInfo OutputFile { get; private set; } = default!;
     public SpriteCompileRule.CompressionType Compression { get; private set; }
-    public string GritPath { get; private set; }
+    public string GritPath { get; private set; } = string.Empty;
 
     public static GritTask Generate(GameProject project, string imageFile, SpriteCompileRule.CompressionType compression, out FileInfo sourceFile)
     {
@@ -34,6 +34,9 @@ internal class GritTask : IBuildTask
 
         return task;
     }
+
+    private GritTask()
+    { }
 
     public BuildResult Build()
     {

@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<RootNamespace>Brewery.Sdk.DevKitPro</RootNamespace>
-		<Authors>Brewery Developers</Authors>
+		<Authors>Valax321</Authors>
 		<AssemblyName>Brewery.$(MSBuildProjectName)</AssemblyName>
 		<PackageId>Brewery.$(MSBuildProjectName)</PackageId>
 		<Company>Brewery</Company>
@@ -14,14 +14,42 @@
 		<Copyright>Copyright © Brewery 2022.</Copyright>
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-		<PackageProjectUrl>https://github.com/Valax321/Brewery</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/Valax321/Brewery/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Valax321/Brewery/</RepositoryUrl>
+		<PackageTags>project,homebrew,build,c,gba,devkitpro,tool</PackageTags>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/Valax321/Brewery</RepositoryUrl>
+		<PackageIcon>brewery_logo.png</PackageIcon>
+		<Configurations>Debug;Release;Shipping</Configurations>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>$(DefineConstants);TRACE;ENABLE_EXPERIMENTAL_FEATURES</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>$(DefineConstants);TRACE;ENABLE_EXPERIMENTAL_FEATURES</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|AnyCPU'">
+	  <Optimize>True</Optimize>
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\ToolSdk\ToolSdk.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="GitVersion.MsBuild" Version="5.9.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\..\assets\brewery_logo.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>

@@ -4,7 +4,10 @@ using Brewery.Sdk.DevKitPro.BuildRules;
 using Brewery.ToolSdk.Build;
 using Brewery.ToolSdk.Plugin;
 using Brewery.ToolSdk.Sdk;
+
+#if ENABLE_EXPERIMENTAL_FEATURES
 using Brewery.ToolSdk.Template;
+#endif
 
 // Register the plugin type
 // This goes unused at the moment as built-in plugins
@@ -26,8 +29,10 @@ internal class DevKitProPlugin : IPlugin
         services.GetBuildSdkRegistry()
             .Register<DevKitProGBABuildSdk>(DevKitProGBABuildSdk.SdkName);
 
+#if ENABLE_EXPERIMENTAL_FEATURES
         services.GetProjectTemplateRegistry()
             .Register<DevKitProProjectTemplate>(DevKitProProjectTemplate.TemplateName);
+#endif
 
         services.GetSourceRuleRegistry()
             .Register<SourceCompileRule>(SourceCompileRule.RuleName);

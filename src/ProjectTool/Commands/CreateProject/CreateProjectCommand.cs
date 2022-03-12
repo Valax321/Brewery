@@ -1,4 +1,5 @@
-﻿using Brewery.ProjectTool.Utility;
+﻿#if ENABLE_EXPERIMENTAL_FEATURES
+using Brewery.ProjectTool.Utility;
 using Brewery.ToolSdk.Logging;
 using Brewery.ToolSdk.Project;
 using Brewery.ToolSdk.Registry;
@@ -55,3 +56,4 @@ internal class CreateProjectCommand : IToolCommand
         }
     }
 }
+#endif
