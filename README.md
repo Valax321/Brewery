@@ -1,10 +1,10 @@
 # Brewery - A Homebrew Game Build Tool
 
-![Nuget](https://img.shields.io/nuget/v/Brewery.ProjectTool?label=Project%20Tool)
+[![Nuget](https://img.shields.io/nuget/v/Brewery.ProjectTool?label=Project%20Tool)](https://www.nuget.org/packages/Brewery.ProjectTool/)
 
-![Nuget](https://img.shields.io/nuget/v/Brewery.ToolSdk?label=Tool%20SDK)
+[![Nuget](https://img.shields.io/nuget/v/Brewery.ToolSdk?label=Tool%20SDK)](https://www.nuget.org/packages/Brewery.ToolSdk/)
 
-![Nuget](https://img.shields.io/nuget/v/Brewery.Sdk.Devkitpro?label=DevKitPro%20SDK)
+[![Nuget](https://img.shields.io/nuget/v/Brewery.Sdk.Devkitpro?label=DevKitPro%20SDK)](https://www.nuget.org/packages/Brewery.Sdk.Devkitpro/)
 
 Brewery is a build/project manager for homebrew game development. At the moment it supports the DevKitARM toolchain of DevKitPro for GBA games. It is written to be modular, so adding new toolchains is relatively easy.
 
