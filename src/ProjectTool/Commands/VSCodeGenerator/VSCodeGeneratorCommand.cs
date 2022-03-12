@@ -1,4 +1,5 @@
-﻿using Brewery.ToolSdk.Logging;
+﻿#if ENABLE_EXPERIMENTAL_FEATURES
+using Brewery.ToolSdk.Logging;
 
 namespace Brewery.ProjectTool.Commands.VSCodeGenerator;
 
@@ -19,3 +20,4 @@ internal class VSCodeGeneratorCommand : IToolCommand
         m_logger.Info($"Generating Visual Studio Code project for {m_options.ProjectPath}");
     }
 }
+#endif

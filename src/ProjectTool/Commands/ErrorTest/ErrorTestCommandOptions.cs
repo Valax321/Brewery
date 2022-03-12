@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿#if !SHIPPING
+using CommandLine;
 
 namespace Brewery.ProjectTool.Commands.ErrorTest;
 
@@ -6,3 +7,4 @@ namespace Brewery.ProjectTool.Commands.ErrorTest;
 internal class ErrorTestCommandOptions : IToolCommandOptions
 {
 }
+#endif

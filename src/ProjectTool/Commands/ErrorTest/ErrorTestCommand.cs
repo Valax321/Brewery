@@ -1,4 +1,5 @@
-﻿using Brewery.ToolSdk.Logging;
+﻿#if !SHIPPING
+using Brewery.ToolSdk.Logging;
 
 namespace Brewery.ProjectTool.Commands.ErrorTest;
 
@@ -18,3 +19,4 @@ internal class ErrorTestCommand : IToolCommand
         throw new Exception("Exception triggered by testerror command");
     }
 }
+#endif
