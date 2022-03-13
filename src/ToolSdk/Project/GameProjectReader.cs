@@ -38,6 +38,17 @@ internal static class GameProjectReader
             .ReadProperty<string>(nameof(GameProject.OutputName),
                 value => project.OutputName = value);
 
+        // NOTE: this must come before using any registries otherwise plugin rules will be skipped
+        if (!isConfiguration)
+        {
+            rootElement.ReadListProperty<string>("Plugins", "Plugin", plugins =>
+            {
+                var pluginLoader = services.GetRequiredService<IPluginLoader>();
+                foreach (var plugin in plugins)
+                    pluginLoader.LoadPlugin(Path.Combine(project.ProjectDirectory.FullName, plugin));
+            });
+        }
+
         var sourceRules = rootElement.Element(nameof(GameProject.SourceRules));
         if (sourceRules is not null)
         {
@@ -83,13 +94,6 @@ internal static class GameProjectReader
         }
 
         project.BuildSdk?.ReadSdkSettings(rootElement, project.BuildSdkProjectSettings, isConfiguration);
-
-        rootElement.ReadListProperty<string>("Plugins", "Plugin", plugins =>
-        {
-            var pluginLoader = services.GetRequiredService<IPluginLoader>();
-            foreach (var plugin in plugins)
-                pluginLoader.LoadPlugin(Path.Combine(project.ProjectDirectory.FullName, plugin));
-        });
 
         rootElement.ReadListProperty<string>(nameof(GameProject.DefineSymbols), "Define",
             values => project.DefineSymbols.AddRange(values));
