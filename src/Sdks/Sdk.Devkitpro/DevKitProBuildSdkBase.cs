@@ -98,6 +98,7 @@ public abstract class DevKitProBuildSdkBase : IBuildSdk
     /// Read dkp-specific project settings.
     /// </summary>
     /// <param name="rootElement">The <see cref="XElement"/> at the root of the document.</param>
+    /// <param name="settings">The settings object to read into.</param>
     /// <returns></returns>
     protected virtual void InternalReadSdkSettings(XElement rootElement, DevKitProBuildSdkProjectSettings settings) { }
 
