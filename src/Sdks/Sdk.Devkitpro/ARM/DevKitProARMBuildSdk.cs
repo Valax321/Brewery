@@ -135,7 +135,8 @@ public abstract class DevKitProARMBuildSdk : DevKitProBuildSdkBase
     private void AddOptimizationLevelFlags(GameProject project, DevKitProBuildSdkProjectSettings settings,
         List<string> flags)
     {
-        flags.Add($"-O{settings.OptimizationLevel}");
+        // Gets the string value of the enum excluding the starting O.
+        flags.Add($"-O{Enum.GetName(typeof(GCCOptimizationLevel), settings.OptimizationLevel)![1..]}");
     }
 
     /// <summary>

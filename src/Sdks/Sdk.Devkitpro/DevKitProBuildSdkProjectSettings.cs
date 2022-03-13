@@ -27,7 +27,7 @@ public class DevKitProBuildSdkProjectSettings : IBuildSdkProjectSettings
     /// <summary>
     /// The GCC optimization level to use when compiling.
     /// </summary>
-    public string OptimizationLevel { get; set; } = "1";
+    public GCCOptimizationLevel OptimizationLevel { get; set; } = GCCOptimizationLevel.O1;
 
     /// <inheritdoc />
     public override string ToString()

@@ -83,23 +83,13 @@ public abstract class DevKitProBuildSdkBase : IBuildSdk
 
         rootElement.ReadProperty<string>("OptimizationLevel", value =>
         {
-            // Match all known optimization levels
-            // Log an error if the given one isn't recognised.
-            switch (value)
+            if (Enum.TryParse<GCCOptimizationLevel>(value, out var level))
             {
-                case "0":
-                case "1":
-                case "2":
-                case "3":
-                case "s":
-                case "fast":
-                case "g":
-                case "z":
-                    dkpSettings.OptimizationLevel = value;
-                    break;
-                default:
-                    m_logger.Error($"Unknown GCC optimization level {value}.\nSee https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html for a list of valid optimization levels.");
-                    break;
+                dkpSettings.OptimizationLevel = level;
+            }
+            else
+            {
+                m_logger.Error($"Unknown GCC optimization level {value}.\nSee https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html for a list of valid optimization levels.");
             }
         });
     }
