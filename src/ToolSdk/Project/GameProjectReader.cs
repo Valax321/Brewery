@@ -34,7 +34,7 @@ internal static class GameProjectReader
             .ReadProperty<string>(nameof(GameProject.AssetsDirectory),
                 value => project.AssetsDirectory = project.ProjectDirectory.GetSubDirectory(value))
             .ReadProperty<string>(nameof(GameProject.IntermediateDirectory),
-                value => project.IntermediateDirectory = project.ProjectDirectory.GetSubDirectory(value))
+                value => project.IntermediateDirectory = project.ProjectDirectory.GetSubDirectory(value + "/" + project.Configuration))
             .ReadProperty<string>(nameof(GameProject.OutputName),
                 value => project.OutputName = value);
 
