@@ -210,13 +210,18 @@ public abstract class DevKitProARMBuildSdk : DevKitProBuildSdkBase
 
         foreach (var path in settings.LibrarySearchPaths)
         {
+            var p2 = path;
+
+            if (!Path.IsPathRooted(path))
+                p2 = Path.Combine(project.ProjectDirectory.FullName, path);
+
             var (pathRedirect, libRedirect) = GetLibraryRedirectedName(libraryName);
-            var archivePath = Path.Combine(path, "lib" + (pathRedirect ?? libraryName), "lib",
+            var archivePath = Path.Combine(p2, "lib" + (pathRedirect ?? libraryName), "lib",
                 "lib" + (libRedirect ?? libraryName) + ".a");
 
             if (File.Exists(archivePath))
             {
-                libraryPath = path;
+                libraryPath = p2;
                 return true;
             }
         }
