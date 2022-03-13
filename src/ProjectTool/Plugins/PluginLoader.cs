@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.Loader;
 using Brewery.ToolSdk.Logging;
 using Brewery.ToolSdk.Plugin;
 
@@ -8,6 +9,8 @@ internal class PluginLoader : IPluginLoader
 {
     private readonly ILogger<PluginLoader> m_logger;
     private readonly IServiceProvider m_services;
+
+    private readonly Dictionary<string, BreweryPluginLoadContext> m_pluginContexts = new();
 
     public PluginLoader(ILogger<PluginLoader> logger, IServiceProvider services)
     {
@@ -21,7 +24,15 @@ internal class PluginLoader : IPluginLoader
         {
             try
             {
-                var pluginAssembly = Assembly.LoadFile(pluginPath);
+                if (!m_pluginContexts.TryGetValue(pluginPath, out var pluginContext))
+                {
+                    pluginContext = new BreweryPluginLoadContext(pluginPath);
+                    m_pluginContexts.Add(pluginPath, pluginContext);
+
+                    m_logger.Debug($"Created plugin context {pluginPath}");
+                }
+
+                var pluginAssembly = pluginContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(pluginPath)));
                 foreach (var attribute in pluginAssembly.GetCustomAttributes<PluginProviderAttribute>())
                 {
                     foreach (var pluginType in attribute.Plugins)
