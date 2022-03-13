@@ -18,11 +18,13 @@
     <BuildConfigurations>
         <Configuration Name="Debug">
             <OutputName>ExampleGame_Debug</OutputName>
+            <OptimizationLevel>g</OptimizationLevel>
             <DefineSymbols>
                 <Define>DEBUG</Define>
             </DefineSymbols>
         </Configuration>
         <Configuration Name="Release">
+            <OptimizationLevel>2</OptimizationLevel>
             <DefineSymbols>
                 <Define>RELEASE</Define>
             </DefineSymbols>

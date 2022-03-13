@@ -19,12 +19,23 @@ public class DevKitProBuildSdkProjectSettings : IBuildSdkProjectSettings
     /// </summary>
     public List<string> AdditionalLibs { get; set; } = new();
 
+    /// <summary>
+    /// Paths to search for additional libraries.
+    /// </summary>
+    public List<string> LibrarySearchPaths { get; set; } = new();
+
+    /// <summary>
+    /// The GCC optimization level to use when compiling.
+    /// </summary>
+    public string OptimizationLevel { get; set; } = "1";
+
     /// <inheritdoc />
     public override string ToString()
     {
         var sb = new StringBuilder();
         sb.AppendLine($"System Library: {SystemLib}");
         sb.AppendLine($"Additional Libraries: {string.Join(", ", AdditionalLibs)}");
+        sb.AppendLine($"Library Search paths:\n{string.Join('\n', LibrarySearchPaths)}");
         return sb.ToString();
     }
 }

@@ -61,14 +61,47 @@ public abstract class DevKitProBuildSdkBase : IBuildSdk
     }
 
     /// <inheritdoc />
-    public IBuildSdkProjectSettings? ReadSdkSettings(XElement rootElement)
+    public IBuildSdkProjectSettings? CreateSdkSettings()
     {
-        var settings = InternalReadSdkSettings(rootElement);
+        return new DevKitProBuildSdkProjectSettings
+        {
+            LibrarySearchPaths = new List<string> { DevKitProPath.FullName }
+        };
+    }
 
-        rootElement.ReadProperty<string>("SystemLib", value => settings.SystemLib = value)
-            .ReadListProperty<string>("AdditionalLibs", "Lib", value => settings.AdditionalLibs.AddRange(value));
+    /// <inheritdoc />
+    public void ReadSdkSettings(XElement rootElement, IBuildSdkProjectSettings? settings, bool isConfiguration)
+    {
+        if (settings is not DevKitProBuildSdkProjectSettings dkpSettings)
+            throw new InvalidOperationException();
 
-        return settings;
+        InternalReadSdkSettings(rootElement, dkpSettings);
+
+        rootElement.ReadProperty<string>("SystemLib", value => dkpSettings.SystemLib = value)
+            .ReadListProperty<string>("AdditionalLibs", "Lib", value => dkpSettings.AdditionalLibs.AddRange(value))
+            .ReadListProperty<string>("LibrarySearchPaths", "SearchPath", value => dkpSettings.LibrarySearchPaths.AddRange(value));
+
+        rootElement.ReadProperty<string>("OptimizationLevel", value =>
+        {
+            // Match all known optimization levels
+            // Log an error if the given one isn't recognised.
+            switch (value)
+            {
+                case "0":
+                case "1":
+                case "2":
+                case "3":
+                case "s":
+                case "fast":
+                case "g":
+                case "z":
+                    dkpSettings.OptimizationLevel = value;
+                    break;
+                default:
+                    m_logger.Error($"Unknown GCC optimization level {value}.\nSee https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html for a list of valid optimization levels.");
+                    break;
+            }
+        });
     }
 
     /// <summary>
@@ -76,7 +109,7 @@ public abstract class DevKitProBuildSdkBase : IBuildSdk
     /// </summary>
     /// <param name="rootElement">The <see cref="XElement"/> at the root of the document.</param>
     /// <returns></returns>
-    protected virtual DevKitProBuildSdkProjectSettings InternalReadSdkSettings(XElement rootElement) => new();
+    protected virtual void InternalReadSdkSettings(XElement rootElement, DevKitProBuildSdkProjectSettings settings) { }
 
     /// <inheritdoc />
     public BuildResult PerformBuild(GameProject project)

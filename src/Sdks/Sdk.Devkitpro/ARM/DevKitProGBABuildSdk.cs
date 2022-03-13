@@ -19,6 +19,23 @@ internal class DevKitProGBABuildSdk : DevKitProARMBuildSdk
         };
     }
 
+    protected override void AddLinkerArchFlags(GameProject project, DevKitProBuildSdkProjectSettings settings, List<string> flags)
+    {
+        flags.Add("-mthumb");
+        flags.Add("-mthumb-interwork");
+    }
+
+    protected override void AddCpuAndTuneFlags(GameProject project, DevKitProBuildSdkProjectSettings settings, List<string> flags)
+    {
+        flags.Add("-mcpu=arm7tdmi");
+        flags.Add("-mtune=arm7tdmi");
+    }
+
+    protected override void AddSpecsFlag(GameProject project, DevKitProBuildSdkProjectSettings settings, List<string> flags)
+    {
+        flags.Add("-specs=gba.specs");
+    }
+
     protected override IBuildTask GetPostBuildBinaryTask(GameProject project, FileInfo elfFile)
     {
         return GBAFixTask.Generate(project, elfFile, out _);

@@ -78,9 +78,11 @@ internal static class GameProjectReader
             if (project.BuildSdk is not null)
             {
                 project.BuildSdk.Initialize(services);
-                project.BuildSdkProjectSettings = project.BuildSdk.ReadSdkSettings(rootElement);
+                project.BuildSdkProjectSettings = project.BuildSdk.CreateSdkSettings();
             }
         }
+
+        project.BuildSdk?.ReadSdkSettings(rootElement, project.BuildSdkProjectSettings, isConfiguration);
 
         rootElement.ReadListProperty<string>("Plugins", "Plugin", plugins =>
         {

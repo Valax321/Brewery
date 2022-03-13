@@ -20,13 +20,20 @@ public interface IBuildSdk
     void Initialize(IServiceProvider services);
 
     /// <summary>
+    /// Creates the <see cref="IBuildSdkProjectSettings"/> for this SDK.
+    /// </summary>
+    /// <returns>SDK-specific settings object, or null if not needed.</returns>
+    IBuildSdkProjectSettings? CreateSdkSettings();
+
+    /// <summary>
     /// Implementation-specific <see cref="GameProject"/> reading.
     /// Settings read should be written into an object implementing <see cref="IBuildSdkProjectSettings"/>
     /// so that it can be stored on the <see cref="GameProject"/> instance.
     /// </summary>
     /// <param name="rootElement">The root XML element of the project file.</param>
-    /// <returns>SDK-specific settings object, or null if not needed.</returns>
-    IBuildSdkProjectSettings? ReadSdkSettings(XElement rootElement);
+    /// <param name="settings">Settings object to read into.</param>
+    /// <param name="isConfiguration">Are we reading from the root xml element, or a custom configuration block?</param>
+    void ReadSdkSettings(XElement rootElement, IBuildSdkProjectSettings? settings, bool isConfiguration);
 
     /// <summary>
     /// Performs a build of the given <see cref="GameProject"/>.
