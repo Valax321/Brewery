@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>Brewery.Sdk.NativeToolchain</RootNamespace>
+		<Authors>Valax321</Authors>
+		<AssemblyName>Brewery.$(MSBuildProjectName)</AssemblyName>
+		<PackageId>Brewery.$(MSBuildProjectName)</PackageId>
+		<Company>Brewery</Company>
+		<Product>Brewery</Product>
+		<Copyright>Copyright © Brewery 2022.</Copyright>
+		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<PackageProjectUrl>https://github.com/Valax321/Brewery/</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Valax321/Brewery/</RepositoryUrl>
+		<PackageTags>project,homebrew,build,c,gba,devkitpro,tool</PackageTags>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>brewery_logo.png</PackageIcon>
+		<Configurations>Debug;Release;Shipping</Configurations>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\ToolSdk\ToolSdk.csproj" />
+	</ItemGroup>
+
+</Project>

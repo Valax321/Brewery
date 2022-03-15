@@ -47,6 +47,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Sdks\Sdk.Devkitpro\Sdk.Devkitpro.csproj" />
+		<ProjectReference Include="..\Sdks\Sdk.NativeToolchain\Sdk.NativeToolchain.csproj" />
 		<ProjectReference Include="..\ToolSdk\ToolSdk.csproj" />
 	</ItemGroup>
 
