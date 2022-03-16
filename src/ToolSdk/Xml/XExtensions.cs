@@ -44,7 +44,7 @@ public static class XExtensions
         }
         else if (errorOnMissing)
             throw new GameProjectReadException(
-                $"Could not find attribute {attribute} on property {element.GetElementPath()}");
+                $"Could not find attribute {attribute} on property {element.Name}");
 
         return element;
     }
@@ -88,7 +88,7 @@ public static class XExtensions
         }
         else if (errorOnMissing)
             throw new GameProjectReadException(
-                $"Could not find property named {element.GetElementPath()}");
+                $"Could not find property named {element.Name}");
 
         return element;
     }
@@ -138,24 +138,8 @@ public static class XExtensions
         }
         else if (errorOnMissing)
             throw new GameProjectReadException(
-                $"Could not find property named {element.GetElementPath()}");
+                $"Could not find property named {element.Name}");
 
         return element;
-    }
-
-    private static string GetElementPath(this XElement element)
-    {
-        var sb = new StringBuilder();
-        var elem = element;
-        do
-        {
-            sb.Insert(0, "." + elem.Name);
-        } 
-        while ((elem = element.Parent) != null);
-
-        // Remove the root .
-        sb.Remove(0, 1);
-
-        return sb.ToString();
     }
 }
