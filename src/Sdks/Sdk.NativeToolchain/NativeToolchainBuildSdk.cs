@@ -66,6 +66,14 @@ public class NativeToolchainBuildSdk : IBuildSdk
             sdkSettings.MSVCSettings.Deserialize(msvcSettings);
         }
 
+        rootElement.ReadListProperty<string>("IncludePaths", "Path",
+                paths => sdkSettings.IncludePaths.AddRange(paths))
+            .ReadListProperty<string>("LibrarySearchPaths", "Path",
+                paths => sdkSettings.IncludePaths.AddRange(paths.Select(x =>
+                    x.Replace("$(Arch)", sdkSettings.CompilerArchitecture))))
+            .ReadListProperty<string>("Libraries", "Lib",
+                libs => sdkSettings.Libraries.AddRange(libs));
+
         rootElement.ReadProperty<WindowsSubsystem>("WindowsSubsystem",
             x => sdkSettings.WindowsSubsystem = x);
 

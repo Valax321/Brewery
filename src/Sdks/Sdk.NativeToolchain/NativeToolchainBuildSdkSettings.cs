@@ -15,7 +15,11 @@ public class NativeToolchainBuildSdkSettings : IBuildSdkProjectSettings
     public OptimizationLevel OptimizationLevel { get; internal set; }
     public bool EnableLinkTimeOptimization { get; internal set; }
 
-    public MSVCSettings MSVCSettings { get; internal set; } = new();
+    public List<string> IncludePaths { get; } = new();
+    public List<string> LibrarySearchPaths { get; } = new();
+    public List<string> Libraries { get; } = new();
+
+    public MSVCSettings MSVCSettings { get; } = new();
     public WindowsSubsystem WindowsSubsystem { get; internal set; } = WindowsSubsystem.Console;
 
     public ICompilerProvider? CompilerProvider { get; internal set; }

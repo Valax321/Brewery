@@ -72,6 +72,15 @@ internal class MSVCCompilerProvider : ICompilerProvider
             args.Add($"/I\"{Path.Combine(m_winSdk.IncludeDirectory, "um")}\"");
         }
 
+        foreach (var path in settings.IncludePaths)
+        {
+            var ppath = path;
+            if (!Path.IsPathRooted(path))
+                ppath = Path.Combine(project.ProjectDirectory.FullName, path);
+
+            args.Add($"/I\"{ppath}\"");
+        }
+
         args.AddRange(project.DefineSymbols.Select(x => $"/D{x.ToUpper()}"));
 
         args.Add($"/Fo\"{outputFile.FullName}\"");
@@ -127,7 +136,21 @@ internal class MSVCCompilerProvider : ICompilerProvider
         args.Add($"/LIBPATH:\"{Path.Combine(m_winSdk.LibraryDirectory, "ucrt", settings.CompilerArchitecture)}\"");
         args.Add($"/LIBPATH:\"{Path.Combine(m_winSdk.LibraryDirectory, "um", settings.CompilerArchitecture)}\"");
         args.Add($"/LIBPATH:\"{Path.Combine(m_vsInstall.InstallationPath, "VC", "Tools", "MSVC", VCToolsVersion.ToString(3), "lib", settings.CompilerArchitecture)}\"");
-        args.Add('"' + "kernel32.lib" + '"');
+
+        foreach (var path in settings.LibrarySearchPaths)
+        {
+            var ppath = path;
+            if (!Path.IsPathRooted(path))
+                ppath = Path.Combine(project.ProjectDirectory.FullName, path);
+
+            args.Add($"/LIBPATH:\"{ppath}\"");
+        }
+
+        args.Add("kernel32.lib");
+        foreach (var lib in settings.Libraries)
+        {
+            args.Add('"' + lib + '"');
+        }
 
         foreach (var objFile in project.SourceBuildArtifacts)
         {
