@@ -2,11 +2,19 @@
   "profiles": {
     "Build DKP Game": {
       "commandName": "Project",
-      "commandLineArgs": "build $(SolutionDir)example\\gba\\ExampleGame.brewproj"
+      "commandLineArgs": "build $(SolutionDir)example\\gba\\ExampleGame.brewproj -c Release"
     },
     "Build DKP Game Debug": {
       "commandName": "Project",
       "commandLineArgs": "build $(SolutionDir)example\\gba\\ExampleGame.brewproj -c Debug"
+    },
+    "Build NativeToolchain": {
+      "commandName": "Project",
+      "commandLineArgs": "build $(SolutionDir)example\\native\\NativeToolchainExample.brewproj -c Debug"
+    },
+    "Build NativeToolchain Debug": {
+      "commandName": "Project",
+      "commandLineArgs": "build $(SolutionDir)example\\native\\NativeToolchainExample.brewproj"
     }
   }
 }

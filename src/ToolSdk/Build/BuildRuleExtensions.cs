@@ -26,6 +26,9 @@ public static class BuildRuleExtensions
             artifacts.AddRange(arts);
         }
 
+        foreach (var artifact in artifacts)
+            artifact.Directory?.Create();
+
         buildArtifacts = artifacts;
         return tasks;
     }
@@ -49,6 +52,9 @@ public static class BuildRuleExtensions
             tasks.AddRange(rule.GenerateBuildTasks(project, overrideDirectory ?? project.AssetsDirectory, usedFiles, out var arts));
             artifacts.AddRange(arts);
         }
+
+        foreach (var artifact in artifacts)
+            artifact.Directory?.Create();
 
         buildArtifacts = artifacts;
         return tasks;

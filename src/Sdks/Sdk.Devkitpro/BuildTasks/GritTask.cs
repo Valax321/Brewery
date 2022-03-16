@@ -1,8 +1,8 @@
 ﻿using Brewery.Sdk.DevKitPro.BuildRules;
-using Brewery.Sdk.DevKitPro.Utility;
 using Brewery.ToolSdk.Build;
 using Brewery.ToolSdk.Logging;
 using Brewery.ToolSdk.Project;
+using Brewery.ToolSdk.Utility;
 
 namespace Brewery.Sdk.DevKitPro.BuildTasks;
 

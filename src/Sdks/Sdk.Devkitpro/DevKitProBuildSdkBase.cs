@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using Brewery.Sdk.DevKitPro.BuildRules;
 using Brewery.Sdk.DevKitPro.BuildTasks;
 using Brewery.ToolSdk.Build;
 using Brewery.ToolSdk.Logging;
@@ -41,6 +42,15 @@ public abstract class DevKitProBuildSdkBase : IBuildSdk
     {
         m_logger = services.GetRequiredService<ILogger<DevKitProBuildSdkBase>>();
         m_services = services;
+
+        // NOTE: these are here and not in DevKitProPlugin as other sdks may want to register source/asset rules
+        // with the same names. Doing it here ensures they are only registered when we're sure we're using this
+        // sdk.
+        services.GetSourceRuleRegistry()
+            .Register<SourceCompileRule>(SourceCompileRule.RuleName);
+
+        services.GetAssetRuleRegistry()
+            .Register<SpriteCompileRule>(SpriteCompileRule.RuleName);
 
         var envPath = Environment.GetEnvironmentVariable("DEVKITPRO");
         if (envPath is not null && Path.IsPathRooted(envPath))

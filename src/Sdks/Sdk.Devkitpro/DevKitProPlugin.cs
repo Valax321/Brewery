@@ -4,6 +4,7 @@ using Brewery.Sdk.DevKitPro.BuildRules;
 using Brewery.ToolSdk.Build;
 using Brewery.ToolSdk.Plugin;
 using Brewery.ToolSdk.Sdk;
+using Brewery.ToolSdk.Settings;
 
 #if ENABLE_EXPERIMENTAL_FEATURES
 using Brewery.ToolSdk.Template;
@@ -34,10 +35,7 @@ internal class DevKitProPlugin : IPlugin
             .Register<DevKitProProjectTemplate>(DevKitProProjectTemplate.TemplateName);
 #endif
 
-        services.GetSourceRuleRegistry()
-            .Register<SourceCompileRule>(SourceCompileRule.RuleName);
-
-        services.GetAssetRuleRegistry()
-            .Register<SpriteCompileRule>(SpriteCompileRule.RuleName);
+        services.GetEnvironmentSettings()
+            .RegisterSetting(Name, "DevkitproPath", string.Empty);
     }
 }

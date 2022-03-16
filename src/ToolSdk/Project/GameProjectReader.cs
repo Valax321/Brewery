@@ -49,6 +49,24 @@ internal static class GameProjectReader
             });
         }
 
+        if (!isConfiguration)
+        {
+            var sdkRegistry = services.GetBuildSdkRegistry();
+
+            rootElement.ReadAttribute<string>("Sdk", sdkName =>
+            {
+                project.BuildSdk = sdkRegistry.GetNamedClass(sdkName);
+            }, true);
+
+            if (project.BuildSdk is not null)
+            {
+                project.BuildSdk.Initialize(services);
+                project.BuildSdkProjectSettings = project.BuildSdk.CreateSdkSettings();
+            }
+        }
+
+        project.BuildSdk?.ReadSdkSettings(rootElement, project.BuildSdkProjectSettings, isConfiguration);
+
         var sourceRules = rootElement.Element(nameof(GameProject.SourceRules));
         if (sourceRules is not null)
         {
@@ -76,24 +94,6 @@ internal static class GameProjectReader
                     project.AssetRules.Add(rule);
             }
         }
-
-        if (!isConfiguration)
-        {
-            var sdkRegistry = services.GetBuildSdkRegistry();
-
-            rootElement.ReadAttribute<string>("Sdk", sdkName =>
-            {
-                project.BuildSdk = sdkRegistry.GetNamedClass(sdkName);
-            }, true);
-
-            if (project.BuildSdk is not null)
-            {
-                project.BuildSdk.Initialize(services);
-                project.BuildSdkProjectSettings = project.BuildSdk.CreateSdkSettings();
-            }
-        }
-
-        project.BuildSdk?.ReadSdkSettings(rootElement, project.BuildSdkProjectSettings, isConfiguration);
 
         rootElement.ReadListProperty<string>(nameof(GameProject.DefineSymbols), "Define",
             values => project.DefineSymbols.AddRange(values));

@@ -1,4 +1,9 @@
-﻿using Brewery.ToolSdk.Plugin;
+﻿using Brewery.Sdk.NativeToolchain;
+using Brewery.ToolSdk.Plugin;
+using Brewery.ToolSdk.Sdk;
+using Brewery.ToolSdk.Settings;
+
+[assembly: PluginProvider(typeof(NativeToolchainPlugin))]
 
 namespace Brewery.Sdk.NativeToolchain;
 
@@ -13,6 +18,10 @@ internal class NativeToolchainPlugin : IPlugin
     /// <inheritdoc />
     public void Register(IServiceProvider services)
     {
-        
+        services.GetBuildSdkRegistry()
+            .Register<NativeToolchainBuildSdk>(NativeToolchainBuildSdk.SdkName);
+
+        services.GetEnvironmentSettings()
+            .RegisterSetting(Name, "MinGWPath", string.Empty);
     }
 }

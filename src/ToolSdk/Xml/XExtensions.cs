@@ -26,14 +26,18 @@ public static class XExtensions
         {
             T value;
 
-            if (typeof(IConvertible).IsAssignableFrom(typeof(T)))
+            if (typeof(T).IsEnum)
+            {
+                value = (T)Enum.Parse(typeof(T), attribute.Value);
+            }
+            else if (typeof(IConvertible).IsAssignableFrom(typeof(T)))
             {
                 value = (T)Convert.ChangeType(attribute.Value, typeof(T));
             }
             else 
             {
                 var converter = TypeDescriptor.GetConverter(typeof(T));
-                value = (T)converter.ConvertFromString(attribute.Value);
+                value = (T)converter.ConvertFromString(attribute.Value)!;
             }
 
             writeCallback(value);
@@ -66,6 +70,10 @@ public static class XExtensions
                 value = Activator.CreateInstance<T>()!;
                 ((IXmlDeserializable)value).Deserialize(property);
             }
+            else if (typeof(T).IsEnum)
+            {
+                value = (T)Enum.Parse(typeof(T), property.Value);
+            }
             else if (typeof(IConvertible).IsAssignableFrom(typeof(T)))
             {
                 value = (T)Convert.ChangeType(property.Value, typeof(T));
@@ -73,7 +81,7 @@ public static class XExtensions
             else
             {
                 var converter = TypeDescriptor.GetConverter(typeof(T));
-                value = (T)converter.ConvertFromString(property.Value);
+                value = (T)converter.ConvertFromString(property.Value)!;
             }
 
             writeCallback(value);

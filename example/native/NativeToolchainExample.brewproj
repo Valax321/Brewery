@@ -1,0 +1,34 @@
+<Project Sdk="NativeToolchain">
+    <OutputName>NativeToolchainExample</OutputName>
+    <SourceDirectory>src</SourceDirectory>
+    <AssetDirectory>assets</AssetDirectory>
+    <Compiler Type="MSVC" />
+
+    <Plugins>
+    </Plugins>
+
+    <BuildConfigurations>
+        <Configuration Name="Debug">
+            <OutputName>NativeToolchainExample_Debug</OutputName>
+            <OptimizationLevel>Og</OptimizationLevel>
+            <DefineSymbols>
+                <Define>DEBUG</Define>
+            </DefineSymbols>
+        </Configuration>
+        <Configuration Name="Release">
+            <OptimizationLevel>O2</OptimizationLevel>
+            <DefineSymbols>
+                <Define>RELEASE</Define>
+            </DefineSymbols>
+        </Configuration>
+    </BuildConfigurations>
+
+    <SourceRules>
+        <Compile Target="**/*.c" Language="C" />
+        <Compile Target="**/*.cpp" Language="CPP" />
+        <Compile Target="**/*.asm" Language="ASM" />
+    </SourceRules>
+
+    <AssetRules>
+    </AssetRules>
+</Project>
