@@ -2,6 +2,7 @@
 using Brewery.ProjectTool.Logging;
 using Brewery.ProjectTool.Plugins;
 using Brewery.ProjectTool.Registry;
+using Brewery.ProjectTool.Settings;
 using Brewery.ToolSdk.Logging;
 using Brewery.ToolSdk.Plugin;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,7 @@ internal class ToolHost
     {
         Services = new ServiceCollection()
             .AddLogging()
+            .AddEnvironmentSettings()
             .AddRegistries()
             .AddCommands(args, () => ConfigurationFailed = true)
             .AddBuiltinPlugins();
