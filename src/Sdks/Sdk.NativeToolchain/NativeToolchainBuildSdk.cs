@@ -60,13 +60,19 @@ public class NativeToolchainBuildSdk : IBuildSdk
         compiler?.ReadAttribute<CompilerType>("Type", x => sdkSettings.CompilerType = x)
             .ReadAttribute<string>("Arch", x => sdkSettings.CompilerArchitecture = x);
 
-        rootElement.ReadProperty<MSVCSettings>("MSVCSettings",
-            x => sdkSettings.MSVCSettings = x)
-            .ReadProperty<WindowsSubsystem>("WindowsSubsystem",
+        var msvcSettings = rootElement.Element("MSVCSettings");
+        if (msvcSettings != null)
+        {
+            sdkSettings.MSVCSettings.Deserialize(msvcSettings);
+        }
+
+        rootElement.ReadProperty<WindowsSubsystem>("WindowsSubsystem",
             x => sdkSettings.WindowsSubsystem = x);
 
         rootElement.ReadProperty<OptimizationLevel>("OptimizationLevel", 
-            x => sdkSettings.OptimizationLevel = x);
+            x => sdkSettings.OptimizationLevel = x)
+            .ReadProperty<bool>("EnableLinkTimeOptimization",
+                x => sdkSettings.EnableLinkTimeOptimization = x);
     }
 
     /// <inheritdoc />

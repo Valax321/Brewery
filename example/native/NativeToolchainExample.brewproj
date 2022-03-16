@@ -3,6 +3,7 @@
     <SourceDirectory>src</SourceDirectory>
     <AssetDirectory>assets</AssetDirectory>
     <Compiler Type="MSVC" />
+    <EnableLinkTimeOptimization>true</EnableLinkTimeOptimization>
 
     <Plugins>
     </Plugins>
@@ -10,6 +11,9 @@
     <BuildConfigurations>
         <Configuration Name="Debug">
             <OutputName>NativeToolchainExample_Debug</OutputName>
+            <MSVCSettings>
+                <EnableDebugging>true</EnableDebugging>
+            </MSVCSettings>
             <OptimizationLevel>Og</OptimizationLevel>
             <DefineSymbols>
                 <Define>DEBUG</Define>
@@ -26,7 +30,6 @@
     <SourceRules>
         <Compile Target="**/*.c" Language="C" />
         <Compile Target="**/*.cpp" Language="CPP" />
-        <Compile Target="**/*.asm" Language="ASM" />
     </SourceRules>
 
     <AssetRules>

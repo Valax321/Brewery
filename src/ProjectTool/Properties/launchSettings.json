@@ -10,11 +10,11 @@
     },
     "Build NativeToolchain": {
       "commandName": "Project",
-      "commandLineArgs": "build $(SolutionDir)example\\native\\NativeToolchainExample.brewproj -c Debug"
+      "commandLineArgs": "build $(SolutionDir)example\\native\\NativeToolchainExample.brewproj -c Release"
     },
     "Build NativeToolchain Debug": {
       "commandName": "Project",
-      "commandLineArgs": "build $(SolutionDir)example\\native\\NativeToolchainExample.brewproj"
+      "commandLineArgs": "build $(SolutionDir)example\\native\\NativeToolchainExample.brewproj -c Debug"
     }
   }
 }

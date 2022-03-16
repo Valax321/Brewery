@@ -51,6 +51,16 @@ internal class MSVCCompilerProvider : ICompilerProvider
             OptimizationLevel.Oz => "/Os"
         });
 
+        if (settings.EnableLinkTimeOptimization)
+        {
+            args.Add("/GL");
+        }
+
+        if (settings.MSVCSettings.EnableDebugging)
+        {
+            args.Add("/Z7");
+        }
+
         args.Add($"/I\"{project.SourceDirectory.FullName}\"");
         args.Add($"/I\"{Path.Combine(m_vsInstall.InstallationPath, "VC", "Tools", "MSVC", VCToolsVersion.ToString(3), "include")}\"");
         if (m_winSdk != null)
@@ -97,9 +107,20 @@ internal class MSVCCompilerProvider : ICompilerProvider
         };
         args.Add($"/SUBSYSTEM:{settings.WindowsSubsystem}");
 
-        // TODO: does this affect the optimization of the binary?
-        // I'm just enabling it so we always get a PDB
-        args.Add("/PDB");
+        if (settings.EnableLinkTimeOptimization)
+        {
+            args.Add("/LTCG");
+        }
+
+        if (settings.MSVCSettings.EnableIncrementalLinking)
+        {
+            args.Add("/INCREMENTAL");
+        }
+
+        if (settings.MSVCSettings.EnableDebugging)
+        {
+            args.Add("/DEBUG");
+        }
 
         args.Add($"/OUT:\"{outputFile.FullName}\"");
 
