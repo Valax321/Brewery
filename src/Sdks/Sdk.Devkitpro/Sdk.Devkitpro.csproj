@@ -12,17 +12,9 @@
 		<Company>Brewery</Company>
 		<Product>Brewery</Product>
 		<Copyright>Copyright © Brewery 2022.</Copyright>
-		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
-		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-		<PackageProjectUrl>https://github.com/Valax321/Brewery/</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/Valax321/Brewery/</RepositoryUrl>
-		<PackageTags>project,homebrew,build,c,gba,devkitpro,tool</PackageTags>
-		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageIcon>brewery_logo.png</PackageIcon>
 		<Configurations>Debug;Release;Shipping</Configurations>
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<IsPublishable>False</IsPublishable>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -5,6 +5,7 @@ using Brewery.ToolSdk.Build;
 using Brewery.ToolSdk.Logging;
 using Brewery.ToolSdk.Project;
 using Brewery.ToolSdk.Sdk;
+using Brewery.ToolSdk.Settings;
 using Brewery.ToolSdk.Utility;
 using Brewery.ToolSdk.Xml;
 using Microsoft.Extensions.DependencyInjection;
@@ -62,6 +63,8 @@ public abstract class DevKitProBuildSdkBase : IBuildSdk
             }
 
             DevKitProPath = new DirectoryInfo(envPath);
+            services.GetEnvironmentSettings()
+                .GetSettingMutable<string>("Devkitpro", "DevkitproPath")?.SetValue(DevKitProPath.FullName);
             m_logger.Debug($"Devkitpro install: {DevKitProPath.FullName}");
         }
         else
