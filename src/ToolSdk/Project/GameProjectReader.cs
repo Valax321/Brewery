@@ -16,8 +16,7 @@ internal static class GameProjectReader
         {
             var doc = XDocument.Load(file.OpenRead());
             var proj = new GameProject(file.Directory
-                                       ?? throw new GameProjectReadException("Could not determine project directory"));
-            proj.Configuration = configuration;
+                                       ?? throw new GameProjectReadException("Could not determine project directory"), configuration);
             Read(proj, doc.Root ?? throw new GameProjectReadException("Project file had no content"), services);
             return proj;
         }
@@ -34,7 +33,7 @@ internal static class GameProjectReader
             .ReadProperty<string>(nameof(GameProject.AssetsDirectory),
                 value => project.AssetsDirectory = project.ProjectDirectory.GetSubDirectory(value))
             .ReadProperty<string>(nameof(GameProject.IntermediateDirectory),
-                value => project.IntermediateDirectory = project.ProjectDirectory.GetSubDirectory(value + "/" + project.Configuration))
+                value => project.IntermediateDirectory = project.ProjectDirectory.GetSubDirectory(Path.Combine(value, project.Configuration)))
             .ReadProperty<string>(nameof(GameProject.OutputName),
                 value => project.OutputName = value);
 

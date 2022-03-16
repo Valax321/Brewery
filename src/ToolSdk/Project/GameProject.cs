@@ -93,12 +93,13 @@ public class GameProject
         return GameProjectReader.ReadProject(projectFile, services, configuration);
     }
 
-    internal GameProject(DirectoryInfo projectDirectory)
+    internal GameProject(DirectoryInfo projectDirectory, string configuration)
     {
+        Configuration = configuration;
         ProjectDirectory = projectDirectory;
         SourceDirectory = projectDirectory.GetSubDirectory("source");
         AssetsDirectory = projectDirectory.GetSubDirectory("assets");
-        IntermediateDirectory = projectDirectory.GetSubDirectory("obj");
+        IntermediateDirectory = projectDirectory.GetSubDirectory(Path.Combine("obj", Configuration));
     }
 
     /// <summary>
