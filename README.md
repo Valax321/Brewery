@@ -6,7 +6,7 @@
 
 [![Nuget](https://img.shields.io/nuget/v/Brewery.Sdk.Devkitpro?label=DevKitPro%20SDK)](https://www.nuget.org/packages/Brewery.Sdk.Devkitpro/)
 
-Brewery is a build/project manager for homebrew game development. At the moment it supports the DevKitARM toolchain of DevKitPro for GBA games. It is written to be modular, so adding new toolchains is relatively easy.
+Brewery is a build/project manager for homebrew game development. At the moment it supports the DevKitARM toolchain of DevKitPro for GBA games and MSVC for Windows. It is written to be modular, so adding new toolchains is relatively easy.
 
 Brewery is written in C# using .NET 6, and should be able to run on Windows, macOS and Linux.
 
@@ -17,7 +17,8 @@ Brewery is still in the early stages of development but is being used/actively d
 ✅ = completed, 🧰 = in development, ❎ = not implemented but planned
 
 * ✅ DevKitARM support for GBA, NDS and 3DS (so far only GBA is supported).
-* ❎ Other DevKitPro toolchains (I don't use these so support may be lacking) & non-DevKitPro toolchains.
+* ✅ Visual Studio C++ toolchain for Windows.
+* ❎ GCC toolchain for MinGW, macOS and Linux.
 * ✅ Asset Build Pipeline: Automate converting game assets into binaries at build time. Integrated into source code on embedded platforms with no filesystem.
 * 🧰 Visual Studio Code C/C++ Project Generation: Generate a C/C++ settings file for VSCode for working code completion out of the box.
 * ❎ Project Generation: Generate new projects from platform-specific templates to get started quickly.
