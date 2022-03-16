@@ -35,7 +35,7 @@ internal class DevKitProPlugin : IPlugin
             .Register<DevKitProProjectTemplate>(DevKitProProjectTemplate.TemplateName);
 #endif
 
-        services.GetEnvironmentSettings()
-            .RegisterSetting(Name, "DevkitproPath", string.Empty);
+        //services.GetEnvironmentSettings()
+            //.RegisterSetting(Name, "DevkitproPath", string.Empty);
     }
 }
