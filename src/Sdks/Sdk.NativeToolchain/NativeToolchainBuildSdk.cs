@@ -69,13 +69,15 @@ public class NativeToolchainBuildSdk : IBuildSdk
         rootElement.ReadListProperty<string>("IncludePaths", "Path",
                 paths => sdkSettings.IncludePaths.AddRange(paths))
             .ReadListProperty<string>("LibrarySearchPaths", "Path",
-                paths => sdkSettings.IncludePaths.AddRange(paths.Select(x =>
+                paths => sdkSettings.LibrarySearchPaths.AddRange(paths.Select(x =>
                     x.Replace("$(Arch)", sdkSettings.CompilerArchitecture))))
             .ReadListProperty<string>("Libraries", "Lib",
                 libs => sdkSettings.Libraries.AddRange(libs));
 
         rootElement.ReadProperty<WindowsSubsystem>("WindowsSubsystem",
-            x => sdkSettings.WindowsSubsystem = x);
+            x => sdkSettings.WindowsSubsystem = x)
+            .ReadProperty<string>("WindowsManifest",
+                x => sdkSettings.WindowsManifest = x);
 
         rootElement.ReadProperty<OptimizationLevel>("OptimizationLevel", 
             x => sdkSettings.OptimizationLevel = x)
@@ -133,7 +135,11 @@ public class NativeToolchainBuildSdk : IBuildSdk
                 project.IntermediateDirectory.GetSubDirectory("assets"))));
         project.SourceBuildArtifacts = sourceBuildArtifacts.Concat(compiledAssetsBuildArtifacts);
 
-        dispatcher.RunTask(LinkTask.Generate(project, settings, out _));
+        dispatcher.RunTask(LinkTask.Generate(project, settings, out var binary));
+        if (settings.CompilerType == CompilerType.MSVC)
+        {
+            dispatcher.RunTask(ManifestToolTask.Generate(project, settings, binary));
+        }
 
         return dispatcher.ExecuteTasks();
     }

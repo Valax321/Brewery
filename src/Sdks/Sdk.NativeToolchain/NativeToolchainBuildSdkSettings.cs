@@ -21,6 +21,7 @@ public class NativeToolchainBuildSdkSettings : IBuildSdkProjectSettings
 
     public MSVCSettings MSVCSettings { get; } = new();
     public WindowsSubsystem WindowsSubsystem { get; internal set; } = WindowsSubsystem.Console;
+    public string WindowsManifest { get; internal set; }
 
     public ICompilerProvider? CompilerProvider { get; internal set; }
 

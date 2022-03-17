@@ -31,15 +31,13 @@ public static class ProcessUtility
             RedirectStandardError = true
         };
 
-#if DEBUG
-            proc.OutputDataReceived += (_, args) =>
-            {
-                if (args.Data is null || args.Data.Length == 0)
-                    return;
+        proc.OutputDataReceived += (_, args) =>
+        {
+            if (args.Data is null || args.Data.Length == 0)
+                return;
 
-                stdOut.Add(args.Data);
-            };
-#endif
+            err.Add(args.Data);
+        };
 
         proc.ErrorDataReceived += (_, args) =>
         {
@@ -51,20 +49,10 @@ public static class ProcessUtility
 
         proc.Start();
 
-#if DEBUG
         proc.BeginOutputReadLine();
-#endif
-
         proc.BeginErrorReadLine();
 
         proc.WaitForExit();
-
-#if DEBUG
-        foreach (var line in stdOut)
-        {
-            Console.WriteLine(line);
-        }
-#endif
 
         return proc.ExitCode == 0 ? BuildResult.Succeeded : BuildResult.Failed;
     }

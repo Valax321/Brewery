@@ -9,8 +9,9 @@ internal class MSVCCompilerProvider : ICompilerProvider
     public string Linker { get; }
     public Version VCToolsVersion { get; }
 
-    private readonly VSInstall m_vsInstall;
-    private readonly WindowsSDKInstall? m_winSdk;
+    public VSInstall VSInstall { get; }
+
+    public WindowsSDKInstall? WindowsSdkInstall { get; }
 
     public MSVCCompilerProvider(NativeToolchainBuildSdkSettings settings, VSInstall install, WindowsSDKInstall? windowsSdk)
     {
@@ -26,8 +27,8 @@ internal class MSVCCompilerProvider : ICompilerProvider
         Compiler = Path.Combine(vcPath, "cl.exe");
         Linker = Path.Combine(vcPath, "link.exe");
 
-        m_vsInstall = install;
-        m_winSdk = windowsSdk;
+        VSInstall = install;
+        WindowsSdkInstall = windowsSdk;
     }
 
     public IEnumerable<string> BuildCompilerArguments(FileInfo inputFile, FileInfo outputFile, 
@@ -62,14 +63,17 @@ internal class MSVCCompilerProvider : ICompilerProvider
         }
 
         args.Add($"/I\"{project.SourceDirectory.FullName}\"");
-        args.Add($"/I\"{Path.Combine(m_vsInstall.InstallationPath, "VC", "Tools", "MSVC", VCToolsVersion.ToString(3), "include")}\"");
-        if (m_winSdk != null)
+        args.Add($"/I\"{Path.Combine(VSInstall.InstallationPath, "VC", "Tools", "MSVC", VCToolsVersion.ToString(3), "include")}\"");
+        if (WindowsSdkInstall != null)
         {
             // C stdlib
-            args.Add($"/I\"{Path.Combine(m_winSdk.IncludeDirectory, "ucrt")}\"");
+            args.Add($"/I\"{Path.Combine(WindowsSdkInstall.IncludeDirectory, "ucrt")}\"");
 
             // Windows headers
-            args.Add($"/I\"{Path.Combine(m_winSdk.IncludeDirectory, "um")}\"");
+            args.Add($"/I\"{Path.Combine(WindowsSdkInstall.IncludeDirectory, "um")}\"");
+
+            // More windows headers
+            args.Add($"/I\"{Path.Combine(WindowsSdkInstall.IncludeDirectory, "shared")}\"");
         }
 
         foreach (var path in settings.IncludePaths)
@@ -78,7 +82,7 @@ internal class MSVCCompilerProvider : ICompilerProvider
             if (!Path.IsPathRooted(path))
                 ppath = Path.Combine(project.ProjectDirectory.FullName, path);
 
-            args.Add($"/I\"{ppath}\"");
+            args.Add($"/I\"{ppath.Replace('/', '\\')}\"");
         }
 
         args.AddRange(project.DefineSymbols.Select(x => $"/D{x.ToUpper()}"));
@@ -114,7 +118,7 @@ internal class MSVCCompilerProvider : ICompilerProvider
             WindowsSubsystem.Windows => "WINDOWS",
             _ => throw new ArgumentOutOfRangeException(nameof(WindowsSubsystem))
         };
-        args.Add($"/SUBSYSTEM:{settings.WindowsSubsystem}");
+        args.Add($"/SUBSYSTEM:{subsystemName}");
 
         if (settings.EnableLinkTimeOptimization)
         {
@@ -133,9 +137,9 @@ internal class MSVCCompilerProvider : ICompilerProvider
 
         args.Add($"/OUT:\"{outputFile.FullName}\"");
 
-        args.Add($"/LIBPATH:\"{Path.Combine(m_winSdk.LibraryDirectory, "ucrt", settings.CompilerArchitecture)}\"");
-        args.Add($"/LIBPATH:\"{Path.Combine(m_winSdk.LibraryDirectory, "um", settings.CompilerArchitecture)}\"");
-        args.Add($"/LIBPATH:\"{Path.Combine(m_vsInstall.InstallationPath, "VC", "Tools", "MSVC", VCToolsVersion.ToString(3), "lib", settings.CompilerArchitecture)}\"");
+        args.Add($"/LIBPATH:\"{Path.Combine(WindowsSdkInstall.LibraryDirectory, "ucrt", settings.CompilerArchitecture)}\"");
+        args.Add($"/LIBPATH:\"{Path.Combine(WindowsSdkInstall.LibraryDirectory, "um", settings.CompilerArchitecture)}\"");
+        args.Add($"/LIBPATH:\"{Path.Combine(VSInstall.InstallationPath, "VC", "Tools", "MSVC", VCToolsVersion.ToString(3), "lib", settings.CompilerArchitecture)}\"");
 
         foreach (var path in settings.LibrarySearchPaths)
         {
@@ -143,13 +147,13 @@ internal class MSVCCompilerProvider : ICompilerProvider
             if (!Path.IsPathRooted(path))
                 ppath = Path.Combine(project.ProjectDirectory.FullName, path);
 
-            args.Add($"/LIBPATH:\"{ppath}\"");
+            args.Add($"/LIBPATH:\"{ppath.Replace('/', '\\')}\"");
         }
 
         args.Add("kernel32.lib");
         foreach (var lib in settings.Libraries)
         {
-            args.Add('"' + lib + '"');
+            args.Add('"' + $"{lib}.lib" + '"');
         }
 
         foreach (var objFile in project.SourceBuildArtifacts)
@@ -168,6 +172,6 @@ internal class MSVCCompilerProvider : ICompilerProvider
 
     public override string ToString()
     {
-        return $"Visual Studio {m_vsInstall.InstallationVersion} with VC {m_vsInstall.GetVCToolsVersion()}";
+        return $"Visual Studio {VSInstall.InstallationVersion} with VC {VSInstall.GetVCToolsVersion()}";
     }
 }
