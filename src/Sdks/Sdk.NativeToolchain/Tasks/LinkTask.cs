@@ -23,7 +23,7 @@ internal class LinkTask : IBuildTask
         {
             Project = project,
             BuildSettings = settings,
-            BinaryFile = new FileInfo(Path.Combine(project.ProjectDirectory.FullName,
+            BinaryFile = new FileInfo(Path.Combine(project.OutputDirectory.FullName,
                 project.OutputName + settings.CompilerProvider!.GetExtensionForBinary(project))),
             LinkCommand = settings.CompilerProvider!.Linker
         };
@@ -36,6 +36,8 @@ internal class LinkTask : IBuildTask
     public BuildResult Build()
     {
         Log($"Linking {BinaryFile.FullName}", LogLevel.Information);
+
+        BinaryFile.Directory?.Create();
 
         var args = BuildSettings.CompilerProvider!
             .BuildLinkerArguments(Project, BuildSettings, BinaryFile);

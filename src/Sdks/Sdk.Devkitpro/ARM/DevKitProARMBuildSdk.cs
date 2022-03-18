@@ -80,7 +80,7 @@ public abstract class DevKitProARMBuildSdk : DevKitProBuildSdkBase
 
         var result = new CompileInfo
         {
-            OutputFile = Path.Combine(project.ProjectDirectory.FullName, Path.ChangeExtension(project.OutputName, ".elf"))
+            OutputFile = Path.Combine(project.OutputDirectory.FullName, Path.ChangeExtension(project.OutputName, ".elf"))
                 .Replace('\\', '/')
         };
 

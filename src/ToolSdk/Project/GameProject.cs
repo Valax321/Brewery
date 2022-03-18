@@ -18,7 +18,7 @@ public class GameProject
     /// <summary>
     /// Name of the configuration used for building the project.
     /// </summary>
-    public string Configuration { get; internal set; } = string.Empty;
+    public string Configuration { get; }
 
     /// <summary>
     /// Directory that the project is located at.
@@ -33,7 +33,7 @@ public class GameProject
     /// <summary>
     /// Glob patterns of files to exclude from compiled source files.
     /// </summary>
-    public List<string> ExcludeSourceFiles { get; internal set; } = new();
+    public List<string> ExcludeSourceFiles { get; } = new();
 
     /// <summary>
     /// The directory that binary-packed assets are located.
@@ -44,6 +44,11 @@ public class GameProject
     /// The directory where intermediate build files are written.
     /// </summary>
     public DirectoryInfo IntermediateDirectory { get; internal set; }
+
+    /// <summary>
+    /// The directory where build output is written.
+    /// </summary>
+    public DirectoryInfo OutputDirectory { get; internal set; }
 
     /// <summary>
     /// The SDK used for building this project.
@@ -104,6 +109,7 @@ public class GameProject
         ProjectDirectory = projectDirectory;
         SourceDirectory = projectDirectory.GetSubDirectory("source");
         AssetsDirectory = projectDirectory.GetSubDirectory("assets");
+        OutputDirectory = projectDirectory;
         IntermediateDirectory = projectDirectory.GetSubDirectory(Path.Combine("obj", Configuration));
     }
 
@@ -126,6 +132,7 @@ public class GameProject
         sb.AppendLine($"Project Directory: {ProjectDirectory.FullName}");
         sb.AppendLine($"Source Directory: {SourceDirectory.FullName}");
         sb.AppendLine($"Assets Directory: {AssetsDirectory.FullName}");
+        sb.Append($"Output Directory: {OutputDirectory.FullName}");
         sb.AppendLine($"SDK: {BuildSdk?.Name}");
         if (BuildSdkProjectSettings is not null)
             sb.Append(BuildSdkProjectSettings);

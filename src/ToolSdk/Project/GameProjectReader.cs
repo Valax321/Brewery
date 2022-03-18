@@ -35,7 +35,9 @@ internal static class GameProjectReader
             .ReadProperty<string>(nameof(GameProject.IntermediateDirectory),
                 value => project.IntermediateDirectory = project.ProjectDirectory.GetSubDirectory(Path.Combine(value, project.Configuration)))
             .ReadProperty<string>(nameof(GameProject.OutputName),
-                value => project.OutputName = value);
+                value => project.OutputName = value)
+            .ReadProperty<string>(nameof(GameProject.OutputDirectory),
+                x => project.OutputDirectory = project.ProjectDirectory.GetSubDirectory(x.Replace("$(Configuration)", project.Configuration)));
 
         // NOTE: this must come before using any registries otherwise plugin rules will be skipped
         if (!isConfiguration)
