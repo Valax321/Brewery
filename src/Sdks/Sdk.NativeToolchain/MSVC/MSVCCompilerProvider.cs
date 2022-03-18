@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using Brewery.ToolSdk.Project;
 
 namespace Brewery.Sdk.NativeToolchain.MSVC;
@@ -85,7 +86,8 @@ internal class MSVCCompilerProvider : ICompilerProvider
             args.Add($"/I\"{ppath.Replace('/', '\\')}\"");
         }
 
-        args.AddRange(project.DefineSymbols.Select(x => $"/D{x.ToUpper()}"));
+        args.AddRange(project.DefineSymbols.Select(x => $"/D{Regex.Replace(x, @"\W", string.Empty).ToUpper()}"));
+        args.Add($"/D{Regex.Replace(project.Configuration, @"\W", string.Empty).ToUpper()}");
 
         args.Add($"/Fo\"{outputFile.FullName}\"");
 
