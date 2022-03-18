@@ -22,6 +22,9 @@ public static class BuildRuleExtensions
         var tasks = new List<IBuildTask>();
         foreach (var rule in project.SourceRules)
         {
+            // This is here because the actual source rule doesn't have access to the project until
+            // it might be added several times
+            project.ExcludeSourceFiles.ForEach(x => rule.Target.AddExclude(x));
             tasks.AddRange(rule.GenerateBuildTasks(project, overrideDirectory ?? project.SourceDirectory, usedFiles, out var arts));
             artifacts.AddRange(arts);
         }

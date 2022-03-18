@@ -31,6 +31,11 @@ public class GameProject
     public DirectoryInfo SourceDirectory { get; internal set; }
 
     /// <summary>
+    /// Glob patterns of files to exclude from compiled source files.
+    /// </summary>
+    public List<string> ExcludeSourceFiles { get; internal set; } = new();
+
+    /// <summary>
     /// The directory that binary-packed assets are located.
     /// </summary>
     public DirectoryInfo AssetsDirectory { get; internal set; }

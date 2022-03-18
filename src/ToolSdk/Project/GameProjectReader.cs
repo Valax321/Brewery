@@ -97,6 +97,9 @@ internal static class GameProjectReader
         rootElement.ReadListProperty<string>(nameof(GameProject.DefineSymbols), "Define",
             values => project.DefineSymbols.AddRange(values));
 
+        rootElement.ReadListProperty<string>(nameof(GameProject.ExcludeSourceFiles), "Match",
+            values => project.ExcludeSourceFiles.AddRange(values));
+
         if (!isConfiguration)
         {
             var buildConfigurations = rootElement.Element("BuildConfigurations");
