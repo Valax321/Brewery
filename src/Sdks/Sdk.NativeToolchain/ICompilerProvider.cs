@@ -2,13 +2,13 @@
 
 namespace Brewery.Sdk.NativeToolchain;
 
-public interface ICompilerProvider
+internal interface ICompilerProvider
 {
     public string Compiler { get; }
     public string Linker { get; }
 
     public IEnumerable<string> BuildCompilerArguments(FileInfo inputFile, FileInfo outputFile,
-        NativeToolchainBuildSdkSettings settings, GameProject project);
+        NativeToolchainBuildSdkSettings settings, GameProject project, CompileSourceRule rule);
 
     public IEnumerable<string> BuildLinkerArguments(GameProject project, NativeToolchainBuildSdkSettings settings,
         FileInfo outputFile);

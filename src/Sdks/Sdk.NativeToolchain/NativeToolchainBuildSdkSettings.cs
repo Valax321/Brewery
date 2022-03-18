@@ -8,7 +8,7 @@ namespace Brewery.Sdk.NativeToolchain;
 /// <summary>
 /// Sdk-specific settings for the <see cref="NativeToolchainBuildSdk"/>.
 /// </summary>
-public class NativeToolchainBuildSdkSettings : IBuildSdkProjectSettings
+internal class NativeToolchainBuildSdkSettings : IBuildSdkProjectSettings
 {
     public CompilerType CompilerType { get; internal set; }
     public string CompilerArchitecture { get; internal set; }

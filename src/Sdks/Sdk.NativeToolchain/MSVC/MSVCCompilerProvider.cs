@@ -33,7 +33,7 @@ internal class MSVCCompilerProvider : ICompilerProvider
     }
 
     public IEnumerable<string> BuildCompilerArguments(FileInfo inputFile, FileInfo outputFile, 
-        NativeToolchainBuildSdkSettings settings, GameProject project)
+        NativeToolchainBuildSdkSettings settings, GameProject project, CompileSourceRule rule)
     {
         var args = new List<string>
         {
@@ -61,6 +61,11 @@ internal class MSVCCompilerProvider : ICompilerProvider
         if (settings.MSVCSettings.EnableDebugging)
         {
             args.Add("/Z7");
+        }
+
+        if (!string.IsNullOrEmpty(rule.LanguageStandard))
+        {
+            args.Add($"/std:{rule.LanguageStandard}");
         }
 
         args.Add($"/I\"{project.SourceDirectory.FullName}\"");

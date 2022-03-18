@@ -76,5 +76,11 @@ internal class BuildCommand : IToolCommand
 
         var result = project.Build();
         m_logger.Info($"Project build result: {result.ToString().ToUpper()}");
+        Environment.ExitCode = result switch
+        {
+            BuildResult.Failed => -1,
+            BuildResult.Succeeded => 0,
+            _ => throw new NotImplementedException(nameof(BuildResult))
+        };
     }
 }
