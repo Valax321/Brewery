@@ -8,6 +8,8 @@ Brewery is a build/project manager for homebrew game development. At the moment 
 
 Brewery is written in C# using .NET 6, and should be able to run on Windows, macOS and Linux.
 
+To learn how to use Brewery, check out the [GitHub Wiki](https://github.com/Valax321/Brewery/wiki).
+
 ## Features
 
 Brewery is still in the early stages of development but is being used/actively developed for a project I am working on.
