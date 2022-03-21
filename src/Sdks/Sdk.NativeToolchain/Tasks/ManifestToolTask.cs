@@ -11,10 +11,10 @@ internal class ManifestToolTask : IBuildTask
 {
     public Action<string, LogLevel> Log { get; set; } = default!;
 
-    public FileInfo ExecutableFile { get; private init; }
-    public FileInfo ManifestToolPath { get; private init; }
-    public NativeToolchainBuildSdkSettings Settings { get; private init; }
-    public GameProject Project { get; private init; }
+    public FileInfo ExecutableFile { get; private init; } = default!;
+    public FileInfo ManifestToolPath { get; private init; } = default!;
+    public NativeToolchainBuildSdkSettings Settings { get; private init; } = default!;
+    public GameProject Project { get; private init; } = default!;
 
     private bool m_skip;
 

@@ -81,7 +81,9 @@ public static class XExtensions
             else
             {
                 var converter = TypeDescriptor.GetConverter(typeof(T));
-                value = (T)converter.ConvertFromString(property.Value)!;
+                if (converter.ConvertFromString(property.Value) is T v)
+                    value = v;
+                else return element;
             }
 
             writeCallback(value);
@@ -128,7 +130,9 @@ public static class XExtensions
                 else
                 {
                     var converter = TypeDescriptor.GetConverter(typeof(T));
-                    value = (T)converter.ConvertFromString(item.Value);
+                    if (converter.ConvertFromString(property.Value) is T v)
+                        value = v;
+                    else continue;
                 }
 
                 list.Add(value);
