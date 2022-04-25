@@ -42,7 +42,8 @@ public class NativeToolchainBuildSdk : IBuildSdk
         m_logger = services.GetRequiredService<ILogger<NativeToolchainBuildSdk>>();
 
         services.GetSourceRuleRegistry()
-            .Register<CompileSourceRule>(CompileSourceRule.Name);
+            .Register<CompileSourceRule>(CompileSourceRule.Name)
+            .Register<ResourceSourceRule>(ResourceSourceRule.Name);
     }
 
     /// <inheritdoc />
