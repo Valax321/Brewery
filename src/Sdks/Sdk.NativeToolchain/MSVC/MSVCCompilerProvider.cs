@@ -210,7 +210,7 @@ internal class MSVCCompilerProvider : ICompilerProvider
             return LogLevel.Error;
         }
 
-        if (Regex.Match(compilerMessage, @"\S+\(\d+\): warning D\d+").Success)
+        if (Regex.Match(compilerMessage, @"\S+\(\d+\): warning [DC]\d+").Success)
         {
             return LogLevel.Warning;
         }
