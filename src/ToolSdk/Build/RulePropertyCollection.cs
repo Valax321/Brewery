@@ -36,7 +36,9 @@ public class RulePropertyCollection
             else
             {
                 var converter = TypeDescriptor.GetConverter(typeof(T));
-                value = (T)converter.ConvertFromString(Value);
+                if (converter.ConvertFromString(Value) is T v)
+                    value = v;
+                else throw new NotSupportedException($"Could not convert value {Value} to type {typeof(T).FullName}");
             }
 
             m_typedValues.Add(typeof(T), value);

@@ -5,7 +5,7 @@ namespace Brewery.Sdk.NativeToolchain.MSVC;
 
 public class MSVCSettings
 {
-    public string CompilerVersion { get; internal set; }
+    public string CompilerVersion { get; internal set; } = string.Empty;
     public string VisualStudioVersion { get; internal set; } = "*";
     public string WindowsSDKVersion { get; internal set; } = "10.*";
 

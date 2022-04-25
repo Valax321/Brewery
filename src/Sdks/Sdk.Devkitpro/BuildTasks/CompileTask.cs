@@ -36,8 +36,9 @@ internal class CompileTask : IBuildTask
     {
         Log($"Compiling {SourceFile}", LogLevel.Information);
 
-        if (!Directory.Exists(Path.GetDirectoryName(CompileInfo.OutputFile)))
-            Directory.CreateDirectory(Path.GetDirectoryName(CompileInfo.OutputFile));
+        var path = Path.GetDirectoryName(CompileInfo.OutputFile);
+        if (!Directory.Exists(Path.GetDirectoryName(CompileInfo.OutputFile)) && path != null)
+            Directory.CreateDirectory(path);
 
         Log(string.Join(' ', CompileInfo.CompileCommand), LogLevel.Debug);
 

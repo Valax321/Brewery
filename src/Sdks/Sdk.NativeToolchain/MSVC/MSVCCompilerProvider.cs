@@ -42,6 +42,7 @@ internal class MSVCCompilerProvider : ICompilerProvider
             "/c"
         };
 
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
         args.Add(settings.OptimizationLevel switch
         {
             OptimizationLevel.O0 => "/Od",
@@ -51,8 +52,10 @@ internal class MSVCCompilerProvider : ICompilerProvider
             OptimizationLevel.Ofast => "/Ot",
             OptimizationLevel.Og => "/Od",
             OptimizationLevel.Os => "/Os",
-            OptimizationLevel.Oz => "/Os"
+            OptimizationLevel.Oz => "/Os",
+            _ => throw new ArgumentOutOfRangeException(nameof(OptimizationLevel))
         });
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
 
         args.Add(settings.WarningLevel switch
         {
@@ -124,6 +127,7 @@ internal class MSVCCompilerProvider : ICompilerProvider
             "/NOLOGO",
         };
 
+#pragma warning disable CA2208 // Instantiate argument exceptions correctly
         var subsystemName = settings.WindowsSubsystem switch
         {
             WindowsSubsystem.BootApplication => "BOOT_APPLICATION",
@@ -137,6 +141,8 @@ internal class MSVCCompilerProvider : ICompilerProvider
             WindowsSubsystem.Windows => "WINDOWS",
             _ => throw new ArgumentOutOfRangeException(nameof(WindowsSubsystem))
         };
+#pragma warning restore CA2208 // Instantiate argument exceptions correctly
+
         args.Add($"/SUBSYSTEM:{subsystemName}");
 
         if (settings.EnableLinkTimeOptimization)
@@ -156,8 +162,11 @@ internal class MSVCCompilerProvider : ICompilerProvider
 
         args.Add($"/OUT:\"{outputFile.FullName}\"");
 
-        args.Add($"/LIBPATH:\"{Path.Combine(WindowsSdkInstall.LibraryDirectory, "ucrt", settings.CompilerArchitecture)}\"");
-        args.Add($"/LIBPATH:\"{Path.Combine(WindowsSdkInstall.LibraryDirectory, "um", settings.CompilerArchitecture)}\"");
+        if (WindowsSdkInstall != null)
+        {
+            args.Add($"/LIBPATH:\"{Path.Combine(WindowsSdkInstall.LibraryDirectory, "ucrt", settings.CompilerArchitecture)}\"");
+            args.Add($"/LIBPATH:\"{Path.Combine(WindowsSdkInstall.LibraryDirectory, "um", settings.CompilerArchitecture)}\"");
+        }
         args.Add($"/LIBPATH:\"{Path.Combine(VSInstall.InstallationPath, "VC", "Tools", "MSVC", VCToolsVersion.ToString(3), "lib", settings.CompilerArchitecture)}\"");
 
         foreach (var path in settings.LibrarySearchPaths)

@@ -45,7 +45,7 @@ internal class GritTask : IBuildTask
         var flagsFile = Path.ChangeExtension(InputFile.FullName, ".grit.txt")
             .Replace('\\', '/');
 
-        if (!OutputFile.Directory.Exists)
+        if (OutputFile.Directory is { Exists: false })
             OutputFile.Directory.Create();
 
         var args = new List<string>()

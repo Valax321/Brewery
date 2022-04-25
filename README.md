@@ -4,11 +4,11 @@
 
 [![Nuget](https://img.shields.io/nuget/v/Brewery.ToolSdk?label=Tool%20SDK)](https://www.nuget.org/packages/Brewery.ToolSdk/)
 
-[![Nuget](https://img.shields.io/nuget/v/Brewery.Sdk.Devkitpro?label=DevKitPro%20SDK)](https://www.nuget.org/packages/Brewery.Sdk.Devkitpro/)
-
 Brewery is a build/project manager for homebrew game development. At the moment it supports the DevKitARM toolchain of DevKitPro for GBA games and MSVC for Windows. It is written to be modular, so adding new toolchains is relatively easy.
 
 Brewery is written in C# using .NET 6, and should be able to run on Windows, macOS and Linux.
+
+To learn how to use Brewery, check out the [GitHub Wiki](https://github.com/Valax321/Brewery/wiki).
 
 ## Features
 

@@ -38,7 +38,7 @@ internal class ParallelBuildTask : IBuildTask
         var token = new CancellationTokenSource();
         ThreadPool.QueueUserWorkItem((obj) =>
         {
-            var token = (CancellationToken)obj;
+            var token = (CancellationToken)(obj ?? throw new NullReferenceException());
             while (!token.IsCancellationRequested)
             {
                 while (m_messageQueue.TryDequeue(out var msg))
