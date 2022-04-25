@@ -34,14 +34,14 @@ internal class LinkTask : IBuildTask
         var fn = CompileInfo.CompileCommand[0];
         var args = CompileInfo.CompileCommand.ToArray()[1..];
         var result = ProcessUtility.RunProcess(fn, args, out var errors);
-        if (result == BuildResult.Succeeded)
-            return result;
+        if (result == 0)
+            return BuildResult.Succeeded;
 
         foreach (var error in errors)
         {
             Log(error, LogLevel.Error);
         }
 
-        return result;
+        return BuildResult.Failed;
     }
 }

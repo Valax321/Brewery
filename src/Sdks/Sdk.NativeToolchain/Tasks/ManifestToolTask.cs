@@ -78,12 +78,12 @@ internal class ManifestToolTask : IBuildTask
         Log($"Running {ManifestToolPath.FullName} {string.Join(' ', args)}", LogLevel.Debug);
 
         var result = ProcessUtility.RunProcess(ManifestToolPath.FullName, args, out var errors);
-        if (result == BuildResult.Failed)
+        if (result != 0)
         {
             foreach (var error in errors)
                 Log(error, LogLevel.Error);
         }
 
-        return result;
+        return result != 0 ? BuildResult.Failed : BuildResult.Succeeded;
     }
 }

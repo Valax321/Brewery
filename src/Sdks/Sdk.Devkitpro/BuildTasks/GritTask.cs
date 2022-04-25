@@ -61,14 +61,14 @@ internal class GritTask : IBuildTask
         }
 
         var result = ProcessUtility.RunProcess(GritPath, args, out var errors);
-        if (result == BuildResult.Succeeded) 
-            return result;
+        if (result == 0) 
+            return BuildResult.Succeeded;
 
         foreach (var error in errors)
         {
             Log(error, LogLevel.Error);
         }
 
-        return result;
+        return BuildResult.Failed;
     }
 }

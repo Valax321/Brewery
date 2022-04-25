@@ -57,6 +57,9 @@ internal class LinkTask : IBuildTask
             }
         }
 
-        return result;
+        if (result != 0)
+            Log($"{BinaryFile.FullName}: exit code {result}", LogLevel.Error);
+
+        return result == 0 ? BuildResult.Succeeded : BuildResult.Failed;
     }
 }

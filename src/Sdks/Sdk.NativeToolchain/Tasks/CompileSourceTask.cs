@@ -60,6 +60,9 @@ internal class CompileSourceTask : IBuildTask
             }
         }
 
-        return result;
+        if (result != 0)
+            Log($"{InputFile.FullName}: exit code {result}", LogLevel.Error);
+
+        return result == 0 ? BuildResult.Succeeded : BuildResult.Failed;
     }
 }

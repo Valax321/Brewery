@@ -96,7 +96,7 @@ internal class ResourceCompilerTask : IBuildTask
         args.Add($"\"{InputFile.FullName}\"");
 
         var result = ProcessUtility.RunProcess(RCToolPath.FullName, args, out var errors);
-        if (result == BuildResult.Failed)
+        if (result != 0)
         {
             foreach (var error in errors)
             {
@@ -104,6 +104,6 @@ internal class ResourceCompilerTask : IBuildTask
             }
         }
 
-        return result;
+        return result == 0 ? BuildResult.Succeeded : BuildResult.Failed;
     }
 }

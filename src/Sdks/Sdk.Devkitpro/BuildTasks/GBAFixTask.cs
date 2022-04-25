@@ -69,15 +69,15 @@ internal class GBAFixTask : IBuildTask
         var args = CopyCommand.ToArray()[1..];
 
         var result = ProcessUtility.RunProcess(fn, args, out var errors);
-        if (result == BuildResult.Succeeded)
-            return result;
+        if (result == 0)
+            return BuildResult.Succeeded;
 
         foreach (var error in errors)
         {
             Log(error, LogLevel.Error);
         }
 
-        return result;
+        return BuildResult.Failed;
     }
 
     private BuildResult GBAFixCommand()
@@ -86,14 +86,14 @@ internal class GBAFixTask : IBuildTask
         var args = Command.ToArray()[1..];
 
         var result = ProcessUtility.RunProcess(fn, args, out var errors);
-        if (result == BuildResult.Succeeded)
-            return result;
+        if (result == 0)
+            return BuildResult.Succeeded;
 
         foreach (var error in errors)
         {
             Log(error, LogLevel.Error);
         }
 
-        return result;
+        return BuildResult.Failed;
     }
 }

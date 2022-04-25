@@ -15,7 +15,7 @@ public static class ProcessUtility
     /// <param name="args">Arguments passed to the process.</param>
     /// <param name="errors">List of lines outputted to stderr during execution.</param>
     /// <returns><see cref="BuildResult.Succeeded"/> if the exit code was 0, otherwise <see cref="BuildResult.Failed"/>.</returns>
-    public static BuildResult RunProcess(string processPath, IEnumerable<string> args, out IEnumerable<string> errors)
+    public static int RunProcess(string processPath, IEnumerable<string> args, out IEnumerable<string> errors)
     {
         var stdOut = new List<string>();
         var err = new List<string>();
@@ -54,6 +54,6 @@ public static class ProcessUtility
 
         proc.WaitForExit();
 
-        return proc.ExitCode == 0 ? BuildResult.Succeeded : BuildResult.Failed;
+        return proc.ExitCode;
     }
 }
