@@ -15,6 +15,7 @@ internal class NativeToolchainBuildSdkSettings : IBuildSdkProjectSettings
     public OptimizationLevel OptimizationLevel { get; internal set; }
     public WarningLevel WarningLevel { get; internal set; }
     public bool EnableLinkTimeOptimization { get; internal set; }
+    public bool EnableExceptions { get; internal set; }
 
     public List<string> IncludePaths { get; } = new();
     public List<string> LibrarySearchPaths { get; } = new();

@@ -73,6 +73,11 @@ internal class MSVCCompilerProvider : ICompilerProvider
             args.Add("/GL");
         }
 
+        if (settings.EnableExceptions)
+        {
+            args.Add("/EHsc");
+        }
+
         if (settings.MSVCSettings.EnableDebugging)
         {
             args.Add("/Z7");

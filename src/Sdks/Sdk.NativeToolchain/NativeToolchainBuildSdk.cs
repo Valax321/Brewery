@@ -85,7 +85,9 @@ public class NativeToolchainBuildSdk : IBuildSdk
             .ReadProperty<bool>("EnableLinkTimeOptimization",
                 x => sdkSettings.EnableLinkTimeOptimization = x)
             .ReadProperty<WarningLevel>("WarningLevel",
-                x => sdkSettings.WarningLevel = x);
+                x => sdkSettings.WarningLevel = x)
+            .ReadProperty<bool>("EnableExceptions", 
+                x => sdkSettings.EnableExceptions = x);
     }
 
     /// <inheritdoc />
