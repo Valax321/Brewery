@@ -48,11 +48,15 @@ internal class CompileSourceTask : IBuildTask
         Log($"Command: {CompileCommand} {string.Join(' ', args)}", LogLevel.Debug);
 
         var result = ProcessUtility.RunProcess(CompileCommand, args, out var errors);
-        if (result == BuildResult.Failed)
+
+        var provider = BuildSettings.CompilerProvider;
+        foreach (var error in errors)
         {
-            foreach (var error in errors)
+            var classification = provider?.ClassifyCompileCommandOutputLine(error, InputFile);
+            if (classification.HasValue 
+                && (classification.Value != LogLevel.Information && classification.Value != LogLevel.Debug))
             {
-                Log(error, LogLevel.Error);
+                Log(error, classification.Value);
             }
         }
 

@@ -13,6 +13,7 @@ internal class NativeToolchainBuildSdkSettings : IBuildSdkProjectSettings
     public CompilerType CompilerType { get; internal set; }
     public string CompilerArchitecture { get; internal set; }
     public OptimizationLevel OptimizationLevel { get; internal set; }
+    public WarningLevel WarningLevel { get; internal set; }
     public bool EnableLinkTimeOptimization { get; internal set; }
 
     public List<string> IncludePaths { get; } = new();

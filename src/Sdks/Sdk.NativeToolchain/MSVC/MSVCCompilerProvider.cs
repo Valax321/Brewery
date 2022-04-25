@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using Brewery.ToolSdk.Logging;
 using Brewery.ToolSdk.Project;
 
 namespace Brewery.Sdk.NativeToolchain.MSVC;
@@ -51,6 +52,17 @@ internal class MSVCCompilerProvider : ICompilerProvider
             OptimizationLevel.Og => "/Od",
             OptimizationLevel.Os => "/Os",
             OptimizationLevel.Oz => "/Os"
+        });
+
+        args.Add(settings.WarningLevel switch
+        {
+            WarningLevel.W0 => "/W0",
+            WarningLevel.W1 => "/W1",
+            WarningLevel.W2 => "/W2",
+            WarningLevel.W3 => "/W3",
+            WarningLevel.W4 => "/W4",
+            WarningLevel.Wall => "/Wall",
+            _ => throw new ArgumentOutOfRangeException()
         });
 
         if (settings.EnableLinkTimeOptimization)
@@ -175,6 +187,51 @@ internal class MSVCCompilerProvider : ICompilerProvider
     {
         // TODO: when I implement library building, detect this properly.
         return ".exe";
+    }
+
+    public LogLevel ClassifyCompileCommandOutputLine(string compilerMessage, FileInfo fileCompiled)
+    {
+        if (Regex.Match(compilerMessage, @"\S+\(\d+\): error C\d+").Success)
+        {
+            return LogLevel.Error;
+        }
+
+        if (Regex.Match(compilerMessage, @"\S+\(\d+\): warning D\d+").Success)
+        {
+            return LogLevel.Warning;
+        }
+
+        if (Regex.Match(compilerMessage, @"\S+\(\d+\): note").Success)
+        {
+            return LogLevel.Warning;
+        }
+
+        return LogLevel.Information;
+    }
+
+    public LogLevel ClassifyLinkCommandOutputLine(string linkMessage, FileInfo fileLinked)
+    {
+        if (Regex.Match(linkMessage, @"\S+ : fatal error LNK\d+").Success)
+        {
+            return LogLevel.Error;
+        }
+
+        if (Regex.Match(linkMessage, @"\S+: error LNK\d+").Success)
+        {
+            return LogLevel.Error;
+        }
+
+        if (Regex.Match(linkMessage, @"\S+: warning LNK\d+").Success)
+        {
+            return LogLevel.Warning;
+        }
+
+        if (Regex.Match(linkMessage, @"\S+: note").Success)
+        {
+            return LogLevel.Warning;
+        }
+
+        return LogLevel.Information;
     }
 
     public override string ToString()

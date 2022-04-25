@@ -45,11 +45,15 @@ internal class LinkTask : IBuildTask
         Log($"Command: {LinkCommand} {string.Join(' ', args)}", LogLevel.Debug);
 
         var result = ProcessUtility.RunProcess(LinkCommand, args, out var errors);
-        if (result == BuildResult.Failed)
+
+        var provider = BuildSettings.CompilerProvider;
+        foreach (var error in errors)
         {
-            foreach (var error in errors)
+            var classification = provider?.ClassifyLinkCommandOutputLine(error, BinaryFile);
+            if (classification.HasValue
+                && (classification.Value != LogLevel.Information && classification.Value != LogLevel.Debug))
             {
-                Log(error, LogLevel.Error);
+                Log(error, classification.Value);
             }
         }
 

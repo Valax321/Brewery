@@ -83,7 +83,9 @@ public class NativeToolchainBuildSdk : IBuildSdk
         rootElement.ReadProperty<OptimizationLevel>("OptimizationLevel", 
             x => sdkSettings.OptimizationLevel = x)
             .ReadProperty<bool>("EnableLinkTimeOptimization",
-                x => sdkSettings.EnableLinkTimeOptimization = x);
+                x => sdkSettings.EnableLinkTimeOptimization = x)
+            .ReadProperty<WarningLevel>("WarningLevel",
+                x => sdkSettings.WarningLevel = x);
     }
 
     /// <inheritdoc />

@@ -1,4 +1,5 @@
-﻿using Brewery.ToolSdk.Project;
+﻿using Brewery.ToolSdk.Logging;
+using Brewery.ToolSdk.Project;
 
 namespace Brewery.Sdk.NativeToolchain;
 
@@ -14,4 +15,7 @@ internal interface ICompilerProvider
         FileInfo outputFile);
 
     public string GetExtensionForBinary(GameProject project);
+
+    public LogLevel ClassifyCompileCommandOutputLine(string compilerMessage, FileInfo fileCompiled);
+    public LogLevel ClassifyLinkCommandOutputLine(string linkMessage, FileInfo fileLinked);
 }
