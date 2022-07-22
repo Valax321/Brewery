@@ -230,17 +230,17 @@ internal class MSVCCompilerProvider : ICompilerProvider
             return LogLevel.Error;
         }
 
-        if (Regex.Match(linkMessage, @"\S+: error LNK\d+").Success)
+        if (Regex.Match(linkMessage, @"\S+ : error LNK\d+").Success)
         {
             return LogLevel.Error;
         }
 
-        if (Regex.Match(linkMessage, @"\S+: warning LNK\d+").Success)
+        if (Regex.Match(linkMessage, @"\S+ : warning LNK\d+").Success)
         {
             return LogLevel.Warning;
         }
 
-        if (Regex.Match(linkMessage, @"\S+: note").Success)
+        if (Regex.Match(linkMessage, @"\S+ : note").Success)
         {
             return LogLevel.Warning;
         }
