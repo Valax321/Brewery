@@ -1,7 +1,5 @@
 ﻿using Brewery.Sdk.DevKitPro;
 using Brewery.Sdk.DevKitPro.ARM;
-using Brewery.Sdk.DevKitPro.BuildRules;
-using Brewery.ToolSdk.Build;
 using Brewery.ToolSdk.Plugin;
 using Brewery.ToolSdk.Sdk;
 using Brewery.ToolSdk.Settings;
@@ -28,7 +26,8 @@ internal class DevKitProPlugin : IPlugin
     public void Register(IServiceProvider services)
     {
         services.GetBuildSdkRegistry()
-            .Register<DevKitProGBABuildSdk>(DevKitProGBABuildSdk.SdkName);
+            .Register<DevKitProGBABuildSdk>(DevKitProGBABuildSdk.SdkName)
+            .Register<DevKitPro3DSBuildSdk>(DevKitPro3DSBuildSdk.SdkName);
 
 #if ENABLE_EXPERIMENTAL_FEATURES
         services.GetProjectTemplateRegistry()
